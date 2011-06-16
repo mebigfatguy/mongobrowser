@@ -1,0 +1,6 @@
+mongobrowser
+============
+
+A webstart application that allows to you to browser, update and administer a MongoDB database.
+
+This is a work in progress, and is early on. Any bugs, features or ideas are very much welcome.
