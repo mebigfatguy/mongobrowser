@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<jnlp 
+  spec="1.0+" 
+  codebase="http://mongobrowser.sourceforge.net/jnlp" 
+  href="mongobrowser.jnlp">
+  <information> 
+    <title>MongoBrowser</title>
+    <vendor>MeBigFatGuy.com</vendor> 
+    <homepage href="http://mongobrowser.sourceforge.net"/> 
+    <description>A browser, editor and administrator tool for a Mongo Database</description> 
+    <offline-allowed/> 
+  </information> 
+  <security> 
+      <all-permissions/> 
+  </security> 
+  <resources> 
+    <j2se version="1.6+" initial-heap-size="400m" max-heap-size="800m"/>
+    <jar href="mongobrowser-$VERSION.jar"/> 
+    <jar href="mongo-1.2.jar"/> 
+    <jar href="forms-1.2.1.jar"/> 
+  </resources> 
+  <application-desc main-class="com.mebigfatguy.mongobrowser.MongoBrowser"/> 
+</jnlp> 
+

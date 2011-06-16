@@ -1,0 +1,9 @@
+[Jar files]
+./classes
+[Source dirs]
+./src
+[Aux classpath entries]
+./lib/forms-1.2.1.jar
+./lib/mongo-1.2.jar
+[Options]
+relative_paths=true

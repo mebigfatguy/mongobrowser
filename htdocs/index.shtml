@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>MongoBrowser - a database query tool for Mongo Databases</title>
+		<meta name="Keywords" content="mongo tool database query editor">
+		<script src="mbfg.js">
+		</script>
+		<link rel="stylesheet" type="text/css" href="mbfg.css" />
+	</head>
+	<body background>
+		<div style="position:absolute;top:0;left:0;width:256;height:65535;z-index:1;background-image:url(blend.jpg);">
+		</div>
+		<div style="position:absolute;top:20;left:20;z-index:3;">
+			<h1><img style="position:relative;top:10;" src="mongobrowser.png"/>&nbsp;Mongo Browser</h1>
+			<hr/>
+			<a href="http://www.sourceforge.net/projects/mongobrowser">Project Page</a>
+			<img src="vbar.gif" height="12"/>
+			<a href="javadoc/index.html">JavaDoc</a>
+			<img src="vbar.gif" height="12"/>
+			<a href="jnlp/mongobrowser.jnlp">Web Start</a>
+			<!--#include virtual="mbfg_menu.shtml" --> 
+			<hr/>
+	
+			<p>Thanks for your interest in MongoBrowser.</p>
+			
+			<p>MongoBrowser is a simple web start application that allows you to browse, update and administer a Mongo database.
+			This is a work in progress, and is early on. Any bugs, features or ideas are very much welcome.
+			</p>
+			
+			<p>-- Dave Brosius</p>
+		</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-249537-11");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+	</body>
+</html>

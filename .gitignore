@@ -1,0 +1,10 @@
+
+classes
+*.class
+*.jar
+*.zip
+*.store
+.svn
+.settings
+javadoc
+jnlp
