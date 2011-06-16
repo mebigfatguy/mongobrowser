@@ -18,20 +18,39 @@
  */
 package com.mebigfatguy.mongobrowser;
 
+import java.net.UnknownHostException;
+
 import com.mebigfatguy.mongobrowser.dialogs.MongoBrowserFrame;
+import com.mongodb.MongoException;
 
 /**
  * main application class
  */
 public class MongoBrowser {
 
-	/**
-	 * 
-	 * @param args the command line arguments (unused)
-	 */
-	public static void main(String[] args) {
-		MongoBrowserFrame frame = new MongoBrowserFrame();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
+    public static final String DEFAULT_SERVER = "localhost";
+    public static final int DEFAULT_PORT = 27017;
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        
+        final String host = (args.length > 0 ? args[0] : null);
+        final int port = (args.length > 1 ? Integer.valueOf(args[1]) : DEFAULT_PORT);
+        
+        MongoBrowserFrame frame = new MongoBrowserFrame();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        
+        if (host != null) {
+            try {
+                frame.startupConnection(host, port);
+            } catch (UnknownHostException e) {
+                System.err.println("Unknown host specified: " + host);
+            } catch (MongoException e) {
+                System.err.println("An error has occurred: " + e.getMessage());
+            }
+        }
+    }
 }
