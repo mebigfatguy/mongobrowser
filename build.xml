@@ -55,12 +55,44 @@
 		<mkdir dir="${classes.dir}"/>
 		<mkdir dir="${javadoc.dir}"/>
 		<path id="mongobrowser.classpath">
-			<pathelement location="${lib.dir}/mongo-1.2.jar"/>
+			<pathelement location="${lib.dir}/mongo-java-driver-1.2.jar"/>
 			<pathelement location="${lib.dir}/forms-1.2.1.jar"/>
+			<pathelement location="${lib.dir}/commons-io-2.3.2.jar"/>
 		</path>
 	</target>
+
+    <property name="forms_url" value="http://repo1.maven.org/maven2/com/jgoodies/forms/1.2.1/forms-1.2.1.jar"/> 
+    <property name="mongodriver_url" value="http://repo1.maven.org/maven2/org/mongodb/mongo-java-driver/1.2/mongo-java-driver-1.2.jar"/> 
+    <property name="commonsio_url" value="http://repo1.maven.org/maven2/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar"/> 
+
+    <target name="forms_check">
+        <available file="${basedir}/lib/forms-1.2.1.jar" property="forms_exists"/>
+    </target>
+
+    <target name="mongodriver_check">
+        <available file="${basedir}/lib/mongo-java-driver-1.2.jar" property="mongodriver.exists"/>
+    </target>
+
+    <target name="commonsio_check">
+        <available file="${basedir}/lib/commons-io-1.3.2.jar" property="commonsio.exists"/>
+    </target>
+
+    <target name="install_forms" depends="forms_check" unless="forms_check" description="installs forms.jar into lib">
+        <get src="${forms_url}" dest="${basedir}/lib/forms-1.2.1.jar" verbose="true" ignoreerrors="true"/>
+    </target>
+
+    <target name="install_mongodriver" depends="mongodriver_check" unless="mongodriver_check" description="installs mongodriver.jar into lib">
+        <get src="${mongodriver_url}" dest="${basedir}/lib/mongo-java-driver-1.2.jar" verbose="true" ignoreerrors="true"/>
+    </target>
+
+    <target name="install_commonsio" depends="commonsio_check" unless="commonsio_check" description="installs commons-io.jar into lib">
+        <get src="${commonsio_url}" dest="${basedir}/lib/commons-io-1.3.2.jar" verbose="true" ignoreerrors="true"/>
+    </target>
+
+    <target name="pull" depends="install_forms, install_mongodriver, install_commonsio" description="pulls in the 3rd party jars">
+    </target>
 		
-	<target name="compile" depends="-init" description="compiles java files">
+	<target name="compile" depends="-init, pull" description="compiles java files">
 		<javac srcdir="${src.dir}"
 				destdir="${classes.dir}"
 				source="${javac.source}"
@@ -107,7 +139,7 @@
 			<manifest>
 				<attribute name="mongobrowser-version" value="${mongobrowser.version}"/>
 				<attribute name="Main-Class" value="com.mebigfatguy.mongobrowser.MongoBrowser"/>
-				<attribute name="Class-Path" value="commons-io-1.4.jar forms-1.2.1.jar"/>
+				<attribute name="Class-Path" value="commons-io-1.3.2.jar forms-1.2.1.jar"/>
 			</manifest>
 		</jar>	
 	</target>
@@ -174,7 +206,7 @@
 	<target name="binzip" depends="build" description="zips up all jars">
 		<zip destfile="${basedir}/mongobrowser-bin-${mongobrowser.version}.zip" 
 			 basedir="${jnlp.dir}"
-			 includes="mongobrowser-${mongobrowser.version}.jar commons-io-1.4.jar forms-1.2.1.jar"/>
+			 includes="mongobrowser-${mongobrowser.version}.jar commons-io-1.3.2.jar forms-1.2.1.jar"/>
 	</target>
 	
 	<target name="release" depends="build, jnlp, binzip, srczip, javadoc" description="prepares everything for a release"/>
