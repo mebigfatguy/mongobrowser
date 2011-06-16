@@ -25,6 +25,8 @@
 			<p>MongoBrowser is a simple web start application that allows you to browse, update and administer a Mongo database.
 			This is a work in progress, and is early on. Any bugs, features or ideas are very much welcome.
 			</p>
+            <p>The source code repository for this project has moved to github. 
+            See git@github.com:mebigfatguy/mongobrowser.git</p>
 			
 			<p>-- Dave Brosius</p>
 		</div>
