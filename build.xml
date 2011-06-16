@@ -77,15 +77,15 @@
         <available file="${basedir}/lib/commons-io-1.3.2.jar" property="commonsio.exists"/>
     </target>
 
-    <target name="install_forms" depends="forms_check" unless="forms_check" description="installs forms.jar into lib">
+    <target name="install_forms" depends="forms_check" unless="forms_exists" description="installs forms.jar into lib">
         <get src="${forms_url}" dest="${basedir}/lib/forms-1.2.1.jar" verbose="true" ignoreerrors="true"/>
     </target>
 
-    <target name="install_mongodriver" depends="mongodriver_check" unless="mongodriver_check" description="installs mongodriver.jar into lib">
+    <target name="install_mongodriver" depends="mongodriver_check" unless="mongodriver.exists" description="installs mongodriver.jar into lib">
         <get src="${mongodriver_url}" dest="${basedir}/lib/mongo-java-driver-1.2.jar" verbose="true" ignoreerrors="true"/>
     </target>
 
-    <target name="install_commonsio" depends="commonsio_check" unless="commonsio_check" description="installs commons-io.jar into lib">
+    <target name="install_commonsio" depends="commonsio_check" unless="commonsio.exists" description="installs commons-io.jar into lib">
         <get src="${commonsio_url}" dest="${basedir}/lib/commons-io-1.3.2.jar" verbose="true" ignoreerrors="true"/>
     </target>
 
