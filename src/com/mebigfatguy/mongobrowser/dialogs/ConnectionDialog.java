@@ -47,7 +47,7 @@ public class ConnectionDialog extends JDialog {
 	private JButton okButton;
 	private JButton cancelButton;
 	private boolean ok = false;
-	
+
 	/**
 	 * constructs the dialog
 	 */
@@ -67,7 +67,7 @@ public class ConnectionDialog extends JDialog {
 		cp.add(createFormPanel(), BorderLayout.CENTER);
 		cp.add(createCtrlPanel(), BorderLayout.SOUTH);
 	}
-	
+
 	/**
 	 * create the panel that houses the input form
 	 * 
@@ -75,31 +75,34 @@ public class ConnectionDialog extends JDialog {
 	 */
 	private JPanel createFormPanel() {
 		JPanel p = new JPanel();
-		p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 2dlu, pref, 6dlu"));
+		p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu",
+				"6dlu, pref, 2dlu, pref, 6dlu"));
 		CellConstraints cc = new CellConstraints();
-		
-		JLabel serverLabel = new JLabel(MongoBundle.getString(MongoBundle.Key.Server));
+
+		JLabel serverLabel = new JLabel(
+				MongoBundle.getString(MongoBundle.Key.Server));
 		p.add(serverLabel, cc.xy(2, 2));
-		
+
 		serverField = new JTextField();
 		p.add(serverField, cc.xy(4, 2));
 		serverField.setText("localhost");
-		
+
 		serverLabel.setLabelFor(serverField);
-		
-		JLabel portLabel = new JLabel(MongoBundle.getString(MongoBundle.Key.Port));
+
+		JLabel portLabel = new JLabel(
+				MongoBundle.getString(MongoBundle.Key.Port));
 		p.add(portLabel, cc.xy(2, 4));
-		
+
 		portField = new JTextField();
 		portField.setDocument(new IntegerDocument());
 		p.add(portField, cc.xy(4, 4));
 		portField.setText("27017");
-		
+
 		portLabel.setLabelFor(portField);
-		
+
 		return p;
 	}
-	
+
 	/**
 	 * creates the panel that houses the ok and cancel buttons
 	 * 
@@ -110,15 +113,16 @@ public class ConnectionDialog extends JDialog {
 		p.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
 		p.add(Box.createHorizontalGlue());
-		
+
 		okButton = new JButton(MongoBundle.getString(MongoBundle.Key.OK));
 		p.add(okButton);
 		p.add(Box.createHorizontalStrut(10));
-		
-		cancelButton = new JButton(MongoBundle.getString(MongoBundle.Key.Cancel));
+
+		cancelButton = new JButton(
+				MongoBundle.getString(MongoBundle.Key.Cancel));
 		p.add(cancelButton);
 		p.add(Box.createHorizontalStrut(10));
-		
+
 		return p;
 	}
 
@@ -127,17 +131,21 @@ public class ConnectionDialog extends JDialog {
 	 */
 	private void initListeners() {
 		okButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				ok = true;
 				dispose();
 			}
 		});
-		
+
 		cancelButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				dispose();
 			}
 		});
+
+		getRootPane().setDefaultButton(okButton);
 	}
 
 	/**
@@ -148,7 +156,7 @@ public class ConnectionDialog extends JDialog {
 	public boolean isOK() {
 		return ok;
 	}
-	
+
 	/**
 	 * get the user supplied host name of the server
 	 * 
@@ -166,6 +174,5 @@ public class ConnectionDialog extends JDialog {
 	public int getPort() {
 		return Integer.parseInt(portField.getText());
 	}
-
 
 }

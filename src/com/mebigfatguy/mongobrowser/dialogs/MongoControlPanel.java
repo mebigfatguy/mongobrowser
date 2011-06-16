@@ -195,7 +195,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 				BorderFactory.createLineBorder(Color.BLACK),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		setLayout(new FormLayout(
-				"3dlu, pref, 1dlu, 150px, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref",
+				"3dlu, pref, 1dlu, 200px:grow, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref",
 				"pref"));
 		CellConstraints cc = new CellConstraints();
 
