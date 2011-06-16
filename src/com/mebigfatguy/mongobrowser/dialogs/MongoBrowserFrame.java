@@ -43,136 +43,142 @@ import com.mongodb.MongoException;
  */
 public class MongoBrowserFrame extends JFrame {
 
-    private static final long serialVersionUID = 8152287910101198703L;
-    private JMenuItem connectItem;
-    private JMenuItem disconnectItem;
-    private MongoControlPanel ctrlPanel;
-    private MongoDataPanel dataPanel;
-    private Mediator mediator = new Mediator();
-    
-    /**
-     * constructs the main frame
-     */
-    public MongoBrowserFrame() {
-        super(MongoBundle.getString(MongoBundle.Key.Title));
-        initComponents();
-        initMenus();
-        initListeners();
-        pack();
-    }
+	private static final long serialVersionUID = 8152287910101198703L;
+	private JMenuItem connectItem;
+	private JMenuItem disconnectItem;
+	private MongoControlPanel ctrlPanel;
+	private MongoDataPanel dataPanel;
+	private final Mediator mediator = new Mediator();
 
-    private void initComponents() {
-        Container cp = getContentPane();
-        cp.setLayout(new BorderLayout(4, 4));
-        ctrlPanel = new MongoControlPanel(mediator);
-        cp.add(ctrlPanel, BorderLayout.NORTH);
-        dataPanel = new MongoDataPanel(mediator);
-        cp.add(dataPanel, BorderLayout.CENTER);
-    }
-    
-    private void initMenus() {
-        
-        JMenuBar mb = new JMenuBar();
-        JMenu databasesMenu = new JMenu(MongoBundle.getString(MongoBundle.Key.Servers));
-        connectItem = new JMenuItem(new ConnectAction(mediator));
-        databasesMenu.add(connectItem);
-        disconnectItem = new JMenuItem(new DisconnectAction(mediator));
-        mb.add(databasesMenu);    
-        databasesMenu.add(disconnectItem);
-        
-        setJMenuBar(mb);
-    }
-    
-    private void initListeners() {
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent we) {
-                dispose();
-                System.exit(0);
-            }
-        });
-    }
-    
-    /**
-     * a mediator for all the actions that occur in the frame
-     */
-    class Mediator implements MongoContext {
-        
-        private JTree activeTree;
-        private MongoTreeNode activeNode;
-        private Mongo activeServer;
-        private DB activeDatabase;
-        
-        @Override
-        public JTree getTree() {
-            return activeTree;
-        }
+	/**
+	 * constructs the main frame
+	 */
+	public MongoBrowserFrame() {
+		super(MongoBundle.getString(MongoBundle.Key.Title));
+		initComponents();
+		initMenus();
+		initListeners();
+		pack();
+	}
 
-        @Override
-        public void setTree(JTree tree) {
-            activeTree = tree;
-        }
-        
-        @Override
-        public MongoTreeNode getSelectedNode() {
-            return activeNode;
-        }
-        
-        @Override
-        public void setSelectedNode(MongoTreeNode node) {
-            activeNode = node;
-            ctrlPanel.adjustEnabled(node);
-        }
+	private void initComponents() {
+		Container cp = getContentPane();
+		cp.setLayout(new BorderLayout(4, 4));
+		ctrlPanel = new MongoControlPanel(mediator);
+		cp.add(ctrlPanel, BorderLayout.NORTH);
+		dataPanel = new MongoDataPanel(mediator);
+		cp.add(dataPanel, BorderLayout.CENTER);
+	}
 
-        @Override
-        public Mongo getServer() {
-            return activeServer;
-        }
-    
-        @Override
-        public void setServer(Mongo server) {
-            activeServer = server;
-            connectItem.setEnabled(server == null);
-            disconnectItem.setEnabled(server != null);
-            if (server != null) {
-                ctrlPanel.init();
-                dataPanel.init();
-            } else {
-                ctrlPanel.term();
-                dataPanel.term();
-            }
-        }
-        
-        public DB getDatabase() {
-            return activeDatabase;
-        }
-        
-        public void setDatabase(DB database) {
-            activeDatabase = database;
-            if (activeDatabase != null) 
-                dataPanel.init();
-            else
-                dataPanel.term();
-        }
-    }
+	private void initMenus() {
 
-    public void startupConnection(final String host, final int port)
-            throws UnknownHostException, MongoException {
-        
-        try {
-            mediator.setServer(new Mongo(host, port));
-        } catch (Exception e) {
-            
-            connectItem.setEnabled(true);
-            disconnectItem.setEnabled(false);
-            ctrlPanel.term();
-            dataPanel.term();
-            
-            if (e instanceof UnknownHostException)
-                throw (UnknownHostException) e;
-            else if (e instanceof MongoException)
-                throw (MongoException) e;
-        }
-    }
-    
+		JMenuBar mb = new JMenuBar();
+		JMenu databasesMenu = new JMenu(
+				MongoBundle.getString(MongoBundle.Key.Servers));
+		connectItem = new JMenuItem(new ConnectAction(mediator));
+		databasesMenu.add(connectItem);
+		disconnectItem = new JMenuItem(new DisconnectAction(mediator));
+		disconnectItem.setEnabled(false);
+		mb.add(databasesMenu);
+		databasesMenu.add(disconnectItem);
+
+		setJMenuBar(mb);
+	}
+
+	private void initListeners() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent we) {
+				dispose();
+				System.exit(0);
+			}
+		});
+	}
+
+	/**
+	 * a mediator for all the actions that occur in the frame
+	 */
+	class Mediator implements MongoContext {
+
+		private JTree activeTree;
+		private MongoTreeNode activeNode;
+		private Mongo activeServer;
+		private DB activeDatabase;
+
+		@Override
+		public JTree getTree() {
+			return activeTree;
+		}
+
+		@Override
+		public void setTree(JTree tree) {
+			activeTree = tree;
+		}
+
+		@Override
+		public MongoTreeNode getSelectedNode() {
+			return activeNode;
+		}
+
+		@Override
+		public void setSelectedNode(MongoTreeNode node) {
+			activeNode = node;
+			ctrlPanel.adjustEnabled(node);
+		}
+
+		@Override
+		public Mongo getServer() {
+			return activeServer;
+		}
+
+		@Override
+		public void setServer(Mongo server) {
+			activeServer = server;
+			connectItem.setEnabled(server == null);
+			disconnectItem.setEnabled(server != null);
+			if (server != null) {
+				ctrlPanel.init();
+				dataPanel.init();
+			} else {
+				ctrlPanel.term();
+				dataPanel.term();
+			}
+		}
+
+		@Override
+		public DB getDatabase() {
+			return activeDatabase;
+		}
+
+		@Override
+		public void setDatabase(DB database) {
+			activeDatabase = database;
+			if (activeDatabase != null) {
+				dataPanel.init();
+			} else {
+				dataPanel.term();
+			}
+		}
+	}
+
+	public void startupConnection(final String host, final int port)
+			throws UnknownHostException, MongoException {
+
+		try {
+			mediator.setServer(new Mongo(host, port));
+		} catch (Exception e) {
+
+			connectItem.setEnabled(true);
+			disconnectItem.setEnabled(false);
+			ctrlPanel.term();
+			dataPanel.term();
+
+			if (e instanceof UnknownHostException) {
+				throw (UnknownHostException) e;
+			} else if (e instanceof MongoException) {
+				throw (MongoException) e;
+			}
+		}
+	}
+
 }
