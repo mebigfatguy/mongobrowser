@@ -2,8 +2,8 @@
 /*
  * mongobrowser - a webstart gui application for viewing, 
  *                editing and administering a Mongo Database
- * Copyright 2009-2010 MeBigFatGuy.com
- * Copyright 2009-2010 Dave Brosius
+ * Copyright 2009-2011 MeBigFatGuy.com
+ * Copyright 2009-2011 Dave Brosius
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -162,7 +162,7 @@
 				 destdir="${javadoc.dir}"
 				 windowtitle="mongobrowser api">
 		    <doctitle><![CDATA[<h1>mongobrowser javadoc</h1>]]></doctitle>
-		    <bottom><![CDATA[<i>Copyright &#169; 2009-2010 MeBigFatGuy.com. All Rights Reserved.</i>]]></bottom>
+		    <bottom><![CDATA[<i>Copyright &#169; 2009-2011 MeBigFatGuy.com. All Rights Reserved.</i>]]></bottom>
 		</javadoc>
 	</target>
 	
