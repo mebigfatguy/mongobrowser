@@ -73,9 +73,6 @@ public class MongoTreeCellRenderer extends DefaultTreeCellRenderer {
 
 				for (DBObject index : indices) {
 					BasicDBObject kvIndex = (BasicDBObject) index.get("key");
-					// if (kvIndex.getKey().equals(key)) {
-					// label.setIcon(indexIcon);
-					// }
 					if (kvIndex.get(key) != null) {
 						label.setIcon(indexIcon);
 						break;
