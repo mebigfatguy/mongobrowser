@@ -16,7 +16,7 @@
   <resources> 
     <j2se version="1.6+" initial-heap-size="400m" max-heap-size="800m"/>
     <jar href="mongobrowser-$VERSION.jar"/> 
-    <jar href="mongo-1.2.jar"/> 
+    <jar href="mongo-java-driver-2.6.2.jar"/> 
     <jar href="forms-1.2.1.jar"/> 
   </resources> 
   <application-desc main-class="com.mebigfatguy.mongobrowser.MongoBrowser"/> 
