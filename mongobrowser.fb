@@ -4,6 +4,7 @@
 ./src
 [Aux classpath entries]
 ./lib/forms-1.2.1.jar
-./lib/mongo-1.2.jar
+./lib/commons-io-1.3.2.jar
+./lib/mongo-java-driver-2.6.2.jar
 [Options]
 relative_paths=true
