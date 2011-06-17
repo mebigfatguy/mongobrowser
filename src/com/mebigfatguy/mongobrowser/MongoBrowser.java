@@ -39,14 +39,14 @@ public class MongoBrowser {
 	public static void main(String[] args) {
 
 		final String host = (args.length > 0 ? args[0] : null);
-		final int port = (args.length > 1 ? Integer.valueOf(args[1])
-				: DEFAULT_PORT);
 
 		MongoBrowserFrame frame = new MongoBrowserFrame();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
 		if (host != null) {
+			final int port = (args.length > 1 ? Integer.parseInt(args[1])
+					: DEFAULT_PORT);
 			try {
 				frame.startupConnection(host, port);
 			} catch (UnknownHostException e) {

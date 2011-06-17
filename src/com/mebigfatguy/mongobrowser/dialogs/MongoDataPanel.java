@@ -152,9 +152,10 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 			}
 
 			private void showPopup(MouseEvent e) {
-				int x = e.getX();
-				int y = e.getY();
 				if (e.isPopupTrigger()) {
+					int x = e.getX();
+					int y = e.getY();
+
 					menu.removeAll();
 					TreePath path = tree.getPathForLocation(x, y);
 					if (path == null) {
