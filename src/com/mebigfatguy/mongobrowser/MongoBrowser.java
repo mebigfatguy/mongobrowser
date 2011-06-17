@@ -3,6 +3,7 @@
  *                editing and administering a Mongo Database
  * Copyright 2009-2011 MeBigFatGuy.com
  * Copyright 2009-2011 Dave Brosius
+ * Copyright 2009-2011 Rodrigo Hjort
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -28,29 +29,31 @@ import com.mongodb.MongoException;
  */
 public class MongoBrowser {
 
-    public static final String DEFAULT_SERVER = "localhost";
-    public static final int DEFAULT_PORT = 27017;
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
-        final String host = (args.length > 0 ? args[0] : null);
-        final int port = (args.length > 1 ? Integer.valueOf(args[1]) : DEFAULT_PORT);
-        
-        MongoBrowserFrame frame = new MongoBrowserFrame();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        
-        if (host != null) {
-            try {
-                frame.startupConnection(host, port);
-            } catch (UnknownHostException e) {
-                System.err.println("Unknown host specified: " + host);
-            } catch (MongoException e) {
-                System.err.println("An error has occurred: " + e.getMessage());
-            }
-        }
-    }
+	public static final String DEFAULT_SERVER = "localhost";
+	public static final int DEFAULT_PORT = 27017;
+
+	/**
+	 * @param args
+	 *            the command line arguments
+	 */
+	public static void main(String[] args) {
+
+		final String host = (args.length > 0 ? args[0] : null);
+		final int port = (args.length > 1 ? Integer.valueOf(args[1])
+				: DEFAULT_PORT);
+
+		MongoBrowserFrame frame = new MongoBrowserFrame();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+
+		if (host != null) {
+			try {
+				frame.startupConnection(host, port);
+			} catch (UnknownHostException e) {
+				System.err.println("Unknown host specified: " + host);
+			} catch (MongoException e) {
+				System.err.println("An error has occurred: " + e.getMessage());
+			}
+		}
+	}
 }
