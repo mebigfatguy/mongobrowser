@@ -27,6 +27,7 @@ import javax.swing.tree.TreePath;
 
 import com.mebigfatguy.mongobrowser.MongoBundle;
 import com.mebigfatguy.mongobrowser.MongoContext;
+import com.mebigfatguy.mongobrowser.TreeUtils;
 import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -37,7 +38,7 @@ import com.mongodb.DBCollection;
 public class NewObjectAction extends AbstractAction {
 
 	private static final long serialVersionUID = 5752147095730092598L;
-	private MongoContext context;
+	private final MongoContext context;
 
 	public NewObjectAction(MongoContext ctxt) {
 		super(MongoBundle.getString(MongoBundle.Key.NewObject));
@@ -47,20 +48,26 @@ public class NewObjectAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JTree tree = context.getTree();
-		TreePath path = tree.getSelectionPath();
-		MongoTreeNode collectionNode = (MongoTreeNode) path.getLastPathComponent();
-		DBCollection dbCollection = (DBCollection) collectionNode.getUserObject();
-		BasicDBObject dbObj = new BasicDBObject();
-		dbCollection.insert(dbObj);
-		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-		MongoTreeNode objectNode = new MongoTreeNode(dbObj, false);
-		collectionNode.add(objectNode);
-		MongoTreeNode slug = new MongoTreeNode();
-		objectNode.add(slug);
-		model.nodeStructureChanged((MongoTreeNode) model.getRoot());
-		TreePath selection = new TreePath(objectNode.getPath());
-		tree.scrollPathToVisible(selection);
-		tree.setSelectionPath(selection);
-	}
 
+		MongoTreeNode[] selectedNodes = TreeUtils.getSelectedNodes(tree);
+		boolean didScrollToVisible = false;
+		for (MongoTreeNode selectedNode : selectedNodes) {
+			DBCollection dbCollection = (DBCollection) selectedNode.getUserObject();
+			BasicDBObject dbObj = new BasicDBObject();
+			dbCollection.insert(dbObj);
+			DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+			MongoTreeNode objectNode = new MongoTreeNode(dbObj, false);
+			selectedNode.add(objectNode);
+			MongoTreeNode slug = new MongoTreeNode();
+			objectNode.add(slug);
+			model.nodeStructureChanged((MongoTreeNode) model.getRoot());
+
+			if (!didScrollToVisible) {
+				TreePath selection = new TreePath(objectNode.getPath());
+				tree.scrollPathToVisible(selection);
+				tree.setSelectionPath(selection);
+				didScrollToVisible = false;
+			}
+		}
+	}
 }
