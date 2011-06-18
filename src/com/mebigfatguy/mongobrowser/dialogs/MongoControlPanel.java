@@ -93,7 +93,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 					}
 				});
 				dbComboBox.setEnabled(true);
-				context.setSelectedNode(null);
+				context.setSelectedNodes();
 			}
 		});
 
@@ -108,7 +108,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 						.getModel();
 				model.removeAllElements();
 				dbComboBox.setEnabled(false);
-				context.setSelectedNode(null);
+				context.setSelectedNodes();
 			}
 		});
 	}
@@ -116,58 +116,53 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 	/**
 	 * resets the enabled state of all the controls based on new selection
 	 * 
-	 * @param selectedNode
-	 *            the tree node that is currently selected
+	 * @param selectedNodes
+	 *            the tree nodes that are currently selected
 	 */
-	public void adjustEnabled(MongoTreeNode selectedNode) {
-		if (selectedNode == null) {
+	public void adjustEnabled(MongoTreeNode... selectedNodes) {
+		if ((selectedNodes == null) || (selectedNodes.length == 0)) {
 			dbNewCollectionButton.setEnabled(true);
 			dbNewObjectButton.setEnabled(false);
 			dbNewKeyValueButton.setEnabled(false);
 			dbDeleteButton.setEnabled(false);
 		} else {
-			switch (selectedNode.getType()) {
-			case Collection:
-				dbNewCollectionButton.setEnabled(true);
-				dbNewKeyValueButton.setEnabled(false);
-				if (selectedNode.isReadOnly()) {
-					dbNewObjectButton.setEnabled(false);
-					dbDeleteButton.setEnabled(false);
-				} else {
-					dbNewObjectButton.setEnabled(true);
-					dbDeleteButton.setEnabled(true);
+
+			boolean canDoNewObject = true;
+			boolean canDoNewKeyValue = true;
+			boolean canDoDelete = true;
+			dbDeleteButton.setEnabled(false);
+
+			for (MongoTreeNode selectedNode : selectedNodes) {
+				switch (selectedNode.getType()) {
+					case Collection:
+						canDoNewKeyValue = false;
+					break;
+
+					case Object:
+						canDoNewObject = false;
+					break;
+
+					case KeyValue:
+						MongoTreeNode.KV kv = (MongoTreeNode.KV) selectedNode
+								.getUserObject();
+						Object value = kv.getValue();
+						canDoNewObject = false;
+						canDoNewKeyValue = value instanceof DBObject;
+						canDoDelete = !kv.getKey().startsWith("_");
+					break;
 				}
 
-				break;
-
-			case Object:
-				dbNewCollectionButton.setEnabled(true);
-				dbNewObjectButton.setEnabled(false);
 				if (selectedNode.isReadOnly()) {
-					dbNewKeyValueButton.setEnabled(false);
-					dbDeleteButton.setEnabled(false);
-				} else {
-					dbNewKeyValueButton.setEnabled(true);
-					dbDeleteButton.setEnabled(true);
+					canDoNewObject = false;
+					canDoNewKeyValue = false;
+					canDoDelete = false;
 				}
-				break;
-
-			case KeyValue:
-				dbNewCollectionButton.setEnabled(true);
-				dbNewObjectButton.setEnabled(false);
-
-				if (selectedNode.isReadOnly()) {
-					dbNewKeyValueButton.setEnabled(false);
-					dbDeleteButton.setEnabled(false);
-				} else {
-					MongoTreeNode.KV kv = (MongoTreeNode.KV) selectedNode
-							.getUserObject();
-					Object value = kv.getValue();
-					dbNewKeyValueButton.setEnabled(value instanceof DBObject);
-					dbDeleteButton.setEnabled(!kv.getKey().startsWith("_"));
-				}
-				break;
 			}
+
+			dbNewCollectionButton.setEnabled(true);
+			dbNewObjectButton.setEnabled(canDoNewObject);
+			dbNewKeyValueButton.setEnabled(canDoNewKeyValue);
+			dbDeleteButton.setEnabled(canDoDelete);
 		}
 	}
 

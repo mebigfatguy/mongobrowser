@@ -30,14 +30,18 @@ import com.mongodb.Mongo;
 public interface MongoContext {
 
 	void setTree(JTree tree);
+
 	JTree getTree();
-	
-	void setSelectedNode(MongoTreeNode node);
-	MongoTreeNode getSelectedNode();
-	
+
+	void setSelectedNodes(MongoTreeNode... node);
+
+	MongoTreeNode[] getSelectedNodes();
+
 	void setServer(Mongo server);
+
 	Mongo getServer();
-	
+
 	void setDatabase(DB db);
+
 	DB getDatabase();
 }

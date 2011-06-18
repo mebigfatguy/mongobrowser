@@ -94,7 +94,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 			root.removeAllChildren();
 		}
 		model.nodeStructureChanged(root);
-		context.setSelectedNode(null);
+		context.setSelectedNodes();
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 		MongoTreeNode root = (MongoTreeNode) model.getRoot();
 		root.removeAllChildren();
 		model.nodeStructureChanged(root);
-		context.setSelectedNode(null);
+		context.setSelectedNodes();
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 					} else {
 						MongoTreeNode node = (MongoTreeNode) path
 								.getLastPathComponent();
-						context.setSelectedNode(node);
+						context.setSelectedNodes(node);
 						if (node.getType() == MongoTreeNode.Type.Collection) {
 							if (!node.isReadOnly()) {
 								menu.add(newObjectItem);
@@ -212,53 +212,53 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 				if (slug.getType() == MongoTreeNode.Type.ExpansionSlug) {
 					node.removeAllChildren();
 					switch (node.getType()) {
-					case Collection: {
-						DBCollection collection = (DBCollection) node
-								.getUserObject();
-						DBCursor cursor = collection.find();
-						while (cursor.hasNext()) {
-							DBObject obj = cursor.next();
-							MongoTreeNode objNode = new MongoTreeNode(obj, node
-									.isReadOnly());
-							node.add(objNode);
-							slug = new MongoTreeNode();
-							objNode.add(slug);
-						}
-					}
-						break;
-
-					case Object: {
-						DBObject object = (DBObject) node.getUserObject();
-						for (String key : object.keySet()) {
-							Object value = object.get(key);
-							MongoTreeNode kv = new MongoTreeNode(
-									new MongoTreeNode.KV(key, value), node
-											.isReadOnly());
-							node.add(kv);
-							if (value instanceof DBObject) {
+						case Collection: {
+							DBCollection collection = (DBCollection) node
+									.getUserObject();
+							DBCursor cursor = collection.find();
+							while (cursor.hasNext()) {
+								DBObject obj = cursor.next();
+								MongoTreeNode objNode = new MongoTreeNode(obj,
+										node.isReadOnly());
+								node.add(objNode);
 								slug = new MongoTreeNode();
-								kv.add(slug);
+								objNode.add(slug);
 							}
 						}
-					}
 						break;
 
-					case KeyValue: {
-						MongoTreeNode.KV topKV = (MongoTreeNode.KV) node
-								.getUserObject();
-						DBObject object = (DBObject) topKV.getValue();
-						for (String key : object.keySet()) {
-							Object value = object.get(key);
-							MongoTreeNode kv = new MongoTreeNode(
-									new MongoTreeNode.KV(key, value), node
-											.isReadOnly());
-							node.add(kv);
-							if (value instanceof DBObject) {
-								slug = new MongoTreeNode();
-								kv.add(slug);
+						case Object: {
+							DBObject object = (DBObject) node.getUserObject();
+							for (String key : object.keySet()) {
+								Object value = object.get(key);
+								MongoTreeNode kv = new MongoTreeNode(
+										new MongoTreeNode.KV(key, value), node
+												.isReadOnly());
+								node.add(kv);
+								if (value instanceof DBObject) {
+									slug = new MongoTreeNode();
+									kv.add(slug);
+								}
 							}
 						}
-					}
+						break;
+
+						case KeyValue: {
+							MongoTreeNode.KV topKV = (MongoTreeNode.KV) node
+									.getUserObject();
+							DBObject object = (DBObject) topKV.getValue();
+							for (String key : object.keySet()) {
+								Object value = object.get(key);
+								MongoTreeNode kv = new MongoTreeNode(
+										new MongoTreeNode.KV(key, value), node
+												.isReadOnly());
+								node.add(kv);
+								if (value instanceof DBObject) {
+									slug = new MongoTreeNode();
+									kv.add(slug);
+								}
+							}
+						}
 						break;
 					}
 				}
@@ -284,13 +284,17 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent tse) {
-				TreePath path = tse.getNewLeadSelectionPath();
-				if (path != null) {
-					MongoTreeNode node = (MongoTreeNode) path
-							.getLastPathComponent();
-					context.setSelectedNode(node);
+				TreePath[] paths = ((JTree) tse.getSource())
+						.getSelectionPaths();
+				if (paths != null) {
+					MongoTreeNode[] nodes = new MongoTreeNode[paths.length];
+					for (int i = 0; i < nodes.length; i++) {
+						nodes[i] = (MongoTreeNode) paths[i]
+								.getLastPathComponent();
+					}
+					context.setSelectedNodes(nodes);
 				} else {
-					context.setSelectedNode(null);
+					context.setSelectedNodes();
 				}
 			}
 		});

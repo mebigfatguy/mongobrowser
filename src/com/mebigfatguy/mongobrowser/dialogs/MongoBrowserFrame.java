@@ -101,7 +101,7 @@ public class MongoBrowserFrame extends JFrame {
 	class Mediator implements MongoContext {
 
 		private JTree activeTree;
-		private MongoTreeNode activeNode;
+		private MongoTreeNode[] activeNodes;
 		private Mongo activeServer;
 		private DB activeDatabase;
 
@@ -116,14 +116,14 @@ public class MongoBrowserFrame extends JFrame {
 		}
 
 		@Override
-		public MongoTreeNode getSelectedNode() {
-			return activeNode;
+		public MongoTreeNode[] getSelectedNodes() {
+			return activeNodes;
 		}
 
 		@Override
-		public void setSelectedNode(MongoTreeNode node) {
-			activeNode = node;
-			ctrlPanel.adjustEnabled(node);
+		public void setSelectedNodes(MongoTreeNode... nodes) {
+			activeNodes = nodes;
+			ctrlPanel.adjustEnabled(nodes);
 		}
 
 		@Override
