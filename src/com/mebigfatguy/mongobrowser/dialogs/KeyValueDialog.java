@@ -90,7 +90,7 @@ public class KeyValueDialog extends JDialog {
 		model.addElement(new FloatValueType());
 		model.addElement(new StringValueType());
 		model.addElement(new ObjectValueType());
-		valueTypeBox.setSelectedIndex(2);
+		valueTypeBox.setSelectedIndex(3);
 		p.add(valueTypeBox, cc.xy(6, 4));
 
 		valueLabel.setLabelFor(valueField);
