@@ -37,6 +37,7 @@ import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 
 import com.mebigfatguy.mongobrowser.MongoContext;
+import com.mebigfatguy.mongobrowser.TreeUtils;
 import com.mebigfatguy.mongobrowser.actions.DeleteAction;
 import com.mebigfatguy.mongobrowser.actions.NewCollectionAction;
 import com.mebigfatguy.mongobrowser.actions.NewKeyValueAction;
@@ -284,14 +285,9 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent tse) {
-				TreePath[] paths = ((JTree) tse.getSource())
-						.getSelectionPaths();
-				if (paths != null) {
-					MongoTreeNode[] nodes = new MongoTreeNode[paths.length];
-					for (int i = 0; i < nodes.length; i++) {
-						nodes[i] = (MongoTreeNode) paths[i]
-								.getLastPathComponent();
-					}
+				MongoTreeNode[] nodes = TreeUtils.getSelectedNodes((JTree) tse
+						.getSource());
+				if (nodes.length > 0) {
 					context.setSelectedNodes(nodes);
 				} else {
 					context.setSelectedNodes();

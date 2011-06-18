@@ -18,27 +18,54 @@
  */
 package com.mebigfatguy.mongobrowser;
 
+import javax.swing.JTree;
+import javax.swing.tree.TreePath;
+
 import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode;
 
 /**
  * a collection of utility methods used in a static context
  */
 public class TreeUtils {
-	
-	private TreeUtils() {	
+
+	private TreeUtils() {
 	}
-	
+
 	/**
 	 * retrieves the collection node that owns the requested node
 	 * 
-	 * @param fromNode the node to find the collection for
+	 * @param fromNode
+	 *            the node to find the collection for
 	 * @return the collection node that owns this node
 	 */
 	public static MongoTreeNode findCollectionNode(MongoTreeNode fromNode) {
 		while (fromNode.getType() != MongoTreeNode.Type.Collection) {
-			fromNode = (MongoTreeNode)fromNode.getParent();
+			fromNode = (MongoTreeNode) fromNode.getParent();
 		}
-		
+
 		return fromNode;
+	}
+
+	/**
+	 * retrieves all the MongoTreeNodes from the current selection
+	 * 
+	 * @param tree
+	 *            the tree to fetch the nodes from
+	 * @return the selected MongoTreeNodes
+	 */
+	public static MongoTreeNode[] getSelectedNodes(JTree tree) {
+		TreePath[] paths = tree.getSelectionPaths();
+
+		if (paths != null) {
+			MongoTreeNode[] nodes = new MongoTreeNode[paths.length];
+
+			for (int i = 0; i < nodes.length; i++) {
+				nodes[i] = (MongoTreeNode) paths[i].getLastPathComponent();
+			}
+
+			return nodes;
+		} else {
+			return new MongoTreeNode[0];
+		}
 	}
 }

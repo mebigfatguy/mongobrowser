@@ -39,13 +39,13 @@ import com.mongodb.DBObject;
 public class NewKeyValueAction extends AbstractAction {
 
 	private static final long serialVersionUID = -500965537578361564L;
-	private MongoContext context;
-	
+	private final MongoContext context;
+
 	public NewKeyValueAction(MongoContext ctxt) {
 		super(MongoBundle.getString(MongoBundle.Key.NewKeyValue));
 		context = ctxt;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JTree tree = context.getTree();
@@ -53,34 +53,49 @@ public class NewKeyValueAction extends AbstractAction {
 		dialog.setLocationRelativeTo(tree);
 		dialog.setModal(true);
 		dialog.setVisible(true);
+
 		if (dialog.isOK()) {
 			String key = dialog.getKey();
 			Object value = dialog.getValue();
-			TreePath path = tree.getSelectionPath();
-			MongoTreeNode selectedNode = (MongoTreeNode)path.getLastPathComponent();
-			DBObject object;
-			
-			if (selectedNode.getType() == MongoTreeNode.Type.KeyValue) {
-				object = (DBObject) ((MongoTreeNode.KV)selectedNode.getUserObject()).getValue();
-			} else {
-				object = (DBObject) selectedNode.getUserObject();
+
+			boolean didScrollToView = false;
+			MongoTreeNode[] selectedNodes = TreeUtils.getSelectedNodes(tree);
+
+			for (MongoTreeNode selectedNode : selectedNodes) {
+				DBObject object;
+
+				if (selectedNode.getType() == MongoTreeNode.Type.KeyValue) {
+					object = (DBObject) ((MongoTreeNode.KV) selectedNode
+							.getUserObject()).getValue();
+				} else {
+					object = (DBObject) selectedNode.getUserObject();
+				}
+
+				object.put(key, value);
+				MongoTreeNode kv = new MongoTreeNode(new MongoTreeNode.KV(key,
+						object.get(key)), false);
+				selectedNode.add(kv);
+				if (value instanceof DBObject) {
+					MongoTreeNode slug = new MongoTreeNode();
+					kv.add(slug);
+				}
+				MongoTreeNode collectionNode = TreeUtils
+						.findCollectionNode(selectedNode);
+				DBCollection collection = (DBCollection) collectionNode
+						.getUserObject();
+				collection.save(object);
+
+				DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+				model.nodeStructureChanged((MongoTreeNode) model.getRoot());
+
+				if (!didScrollToView) {
+					TreePath selection = new TreePath(kv.getPath());
+					tree.scrollPathToVisible(selection);
+					tree.setSelectionPath(selection);
+					didScrollToView = true;
+				}
 			}
-			
-			object.put(key, value);
-			MongoTreeNode kv = new MongoTreeNode(new MongoTreeNode.KV(key, object.get(key)), false);
-			selectedNode.add(kv);
-			if (value instanceof DBObject) {
-				MongoTreeNode slug = new MongoTreeNode();
-				kv.add(slug);
-			}
-			MongoTreeNode collectionNode = TreeUtils.findCollectionNode(selectedNode);
-			DBCollection collection = (DBCollection)collectionNode.getUserObject();
-			collection.save(object);
-			DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
-			model.nodeStructureChanged((MongoTreeNode)model.getRoot());
-			TreePath selection = new TreePath(kv.getPath());
-			tree.scrollPathToVisible(selection);
-			tree.setSelectionPath(selection);
+
 		}
 	}
 }
