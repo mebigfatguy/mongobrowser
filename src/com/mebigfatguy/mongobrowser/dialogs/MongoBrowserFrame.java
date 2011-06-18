@@ -73,8 +73,7 @@ public class MongoBrowserFrame extends JFrame {
 	private void initMenus() {
 
 		JMenuBar mb = new JMenuBar();
-		JMenu databasesMenu = new JMenu(
-				MongoBundle.getString(MongoBundle.Key.Servers));
+		JMenu databasesMenu = new JMenu(MongoBundle.getString(MongoBundle.Key.Servers));
 		connectItem = new JMenuItem(new ConnectAction(mediator));
 		databasesMenu.add(connectItem);
 		disconnectItem = new JMenuItem(new DisconnectAction(mediator));
@@ -161,8 +160,7 @@ public class MongoBrowserFrame extends JFrame {
 		}
 	}
 
-	public void startupConnection(final String host, final int port)
-			throws UnknownHostException, MongoException {
+	public void startupConnection(final String host, final int port) throws UnknownHostException, MongoException {
 
 		try {
 			mediator.setServer(new Mongo(host, port));

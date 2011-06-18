@@ -75,12 +75,10 @@ public class ConnectionDialog extends JDialog {
 	 */
 	private JPanel createFormPanel() {
 		JPanel p = new JPanel();
-		p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu",
-				"6dlu, pref, 2dlu, pref, 6dlu"));
+		p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 2dlu, pref, 6dlu"));
 		CellConstraints cc = new CellConstraints();
 
-		JLabel serverLabel = new JLabel(
-				MongoBundle.getString(MongoBundle.Key.Server));
+		JLabel serverLabel = new JLabel(MongoBundle.getString(MongoBundle.Key.Server));
 		p.add(serverLabel, cc.xy(2, 2));
 
 		serverField = new JTextField();
@@ -89,8 +87,7 @@ public class ConnectionDialog extends JDialog {
 
 		serverLabel.setLabelFor(serverField);
 
-		JLabel portLabel = new JLabel(
-				MongoBundle.getString(MongoBundle.Key.Port));
+		JLabel portLabel = new JLabel(MongoBundle.getString(MongoBundle.Key.Port));
 		p.add(portLabel, cc.xy(2, 4));
 
 		portField = new JTextField();
@@ -118,8 +115,7 @@ public class ConnectionDialog extends JDialog {
 		p.add(okButton);
 		p.add(Box.createHorizontalStrut(10));
 
-		cancelButton = new JButton(
-				MongoBundle.getString(MongoBundle.Key.Cancel));
+		cancelButton = new JButton(MongoBundle.getString(MongoBundle.Key.Cancel));
 		p.add(cancelButton);
 		p.add(Box.createHorizontalStrut(10));
 

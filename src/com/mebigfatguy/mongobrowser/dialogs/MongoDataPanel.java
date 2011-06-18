@@ -163,8 +163,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 						menu.add(newCollectionItem);
 						menu.show(tree, x, y);
 					} else {
-						MongoTreeNode node = (MongoTreeNode) path
-								.getLastPathComponent();
+						MongoTreeNode node = (MongoTreeNode) path.getLastPathComponent();
 						context.setSelectedNodes(node);
 						if (node.getType() == MongoTreeNode.Type.Collection) {
 							if (!node.isReadOnly()) {
@@ -180,8 +179,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 							}
 						} else if (node.getType() == MongoTreeNode.Type.KeyValue) {
 							if (!node.isReadOnly()) {
-								MongoTreeNode.KV kv = (MongoTreeNode.KV) node
-										.getUserObject();
+								MongoTreeNode.KV kv = (MongoTreeNode.KV) node.getUserObject();
 								Object value = kv.getValue();
 								boolean needsSeparator = false;
 								if (value instanceof DBObject) {
@@ -205,22 +203,18 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 
 		tree.addTreeWillExpandListener(new TreeWillExpandListener() {
 			@Override
-			public void treeWillExpand(TreeExpansionEvent event)
-					throws ExpandVetoException {
-				MongoTreeNode node = (MongoTreeNode) event.getPath()
-						.getLastPathComponent();
+			public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
+				MongoTreeNode node = (MongoTreeNode) event.getPath().getLastPathComponent();
 				MongoTreeNode slug = (MongoTreeNode) node.getFirstChild();
 				if (slug.getType() == MongoTreeNode.Type.ExpansionSlug) {
 					node.removeAllChildren();
 					switch (node.getType()) {
 						case Collection: {
-							DBCollection collection = (DBCollection) node
-									.getUserObject();
+							DBCollection collection = (DBCollection) node.getUserObject();
 							DBCursor cursor = collection.find();
 							while (cursor.hasNext()) {
 								DBObject obj = cursor.next();
-								MongoTreeNode objNode = new MongoTreeNode(obj,
-										node.isReadOnly());
+								MongoTreeNode objNode = new MongoTreeNode(obj, node.isReadOnly());
 								node.add(objNode);
 								slug = new MongoTreeNode();
 								objNode.add(slug);
@@ -232,9 +226,8 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 							DBObject object = (DBObject) node.getUserObject();
 							for (String key : object.keySet()) {
 								Object value = object.get(key);
-								MongoTreeNode kv = new MongoTreeNode(
-										new MongoTreeNode.KV(key, value), node
-												.isReadOnly());
+								MongoTreeNode kv = new MongoTreeNode(new MongoTreeNode.KV(key, value), node
+										.isReadOnly());
 								node.add(kv);
 								if (value instanceof DBObject) {
 									slug = new MongoTreeNode();
@@ -245,14 +238,12 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 						break;
 
 						case KeyValue: {
-							MongoTreeNode.KV topKV = (MongoTreeNode.KV) node
-									.getUserObject();
+							MongoTreeNode.KV topKV = (MongoTreeNode.KV) node.getUserObject();
 							DBObject object = (DBObject) topKV.getValue();
 							for (String key : object.keySet()) {
 								Object value = object.get(key);
-								MongoTreeNode kv = new MongoTreeNode(
-										new MongoTreeNode.KV(key, value), node
-												.isReadOnly());
+								MongoTreeNode kv = new MongoTreeNode(new MongoTreeNode.KV(key, value), node
+										.isReadOnly());
 								node.add(kv);
 								if (value instanceof DBObject) {
 									slug = new MongoTreeNode();
@@ -269,10 +260,8 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 			}
 
 			@Override
-			public void treeWillCollapse(TreeExpansionEvent event)
-					throws ExpandVetoException {
-				MongoTreeNode node = (MongoTreeNode) event.getPath()
-						.getLastPathComponent();
+			public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
+				MongoTreeNode node = (MongoTreeNode) event.getPath().getLastPathComponent();
 				node.removeAllChildren();
 				MongoTreeNode slug = new MongoTreeNode();
 				node.add(slug);
@@ -285,8 +274,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent tse) {
-				MongoTreeNode[] nodes = TreeUtils.getSelectedNodes((JTree) tse
-						.getSource());
+				MongoTreeNode[] nodes = TreeUtils.getSelectedNodes((JTree) tse.getSource());
 				if (nodes.length > 0) {
 					context.setSelectedNodes(nodes);
 				} else {

@@ -45,8 +45,7 @@ public class MongoBrowser {
 		frame.setVisible(true);
 
 		if (host != null) {
-			final int port = (args.length > 1 ? Integer.parseInt(args[1])
-					: DEFAULT_PORT);
+			final int port = (args.length > 1 ? Integer.parseInt(args[1]) : DEFAULT_PORT);
 			try {
 				frame.startupConnection(host, port);
 			} catch (UnknownHostException e) {

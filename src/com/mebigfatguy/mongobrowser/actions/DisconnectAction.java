@@ -32,12 +32,12 @@ public class DisconnectAction extends AbstractAction {
 
 	private static final long serialVersionUID = -5795316226405751888L;
 	private MongoContext context;
-	
+
 	public DisconnectAction(MongoContext ctxt) {
 		super(MongoBundle.getString(MongoBundle.Key.Disconnect));
 		context = ctxt;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		context.setDatabase(null);

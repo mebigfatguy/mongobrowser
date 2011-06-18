@@ -23,6 +23,7 @@ import java.awt.Toolkit;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
+
 /**
  * a JTextComponent model object that only allows float value input
  */
@@ -34,9 +35,12 @@ public class FloatDocument extends PlainDocument {
 	 * intercepts string insertions to make sure that the values to be put into
 	 * a text component is only an float value
 	 * 
-	 * @param pos where the text is being inserted
-	 * @param insertStr the new text that was typed
-	 * @param atts the attributes for the text (unused)
+	 * @param pos
+	 *            where the text is being inserted
+	 * @param insertStr
+	 *            the new text that was typed
+	 * @param atts
+	 *            the attributes for the text (unused)
 	 */
 	@Override
 	public void insertString(int pos, String insertStr, AttributeSet atts) throws BadLocationException {
@@ -46,7 +50,7 @@ public class FloatDocument extends PlainDocument {
 			Float.parseFloat(text.toString());
 			super.insertString(pos, insertStr, atts);
 		} catch (Exception e) {
-			Toolkit.getDefaultToolkit().beep();	
+			Toolkit.getDefaultToolkit().beep();
 		}
 	}
 

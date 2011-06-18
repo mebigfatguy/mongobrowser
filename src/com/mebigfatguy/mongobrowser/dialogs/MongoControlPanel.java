@@ -81,8 +81,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 			public void run() {
 				Mongo db = context.getServer();
 				List<String> databases = db.getDatabaseNames();
-				DefaultComboBoxModel model = (DefaultComboBoxModel) dbComboBox
-						.getModel();
+				DefaultComboBoxModel model = (DefaultComboBoxModel) dbComboBox.getModel();
 				for (String database : databases) {
 					model.addElement(database);
 				}
@@ -104,8 +103,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				DefaultComboBoxModel model = (DefaultComboBoxModel) dbComboBox
-						.getModel();
+				DefaultComboBoxModel model = (DefaultComboBoxModel) dbComboBox.getModel();
 				model.removeAllElements();
 				dbComboBox.setEnabled(false);
 				context.setSelectedNodes();
@@ -143,8 +141,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 					break;
 
 					case KeyValue:
-						MongoTreeNode.KV kv = (MongoTreeNode.KV) selectedNode
-								.getUserObject();
+						MongoTreeNode.KV kv = (MongoTreeNode.KV) selectedNode.getUserObject();
 						Object value = kv.getValue();
 						canDoNewObject = false;
 						canDoNewKeyValue = value instanceof DBObject;
@@ -172,8 +169,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		Paint savePaint = g2d.getPaint();
 		try {
-			GradientPaint gp = new GradientPaint(0, 0, getBackground(), 0,
-					getHeight(), Color.GRAY);
+			GradientPaint gp = new GradientPaint(0, 0, getBackground(), 0, getHeight(), Color.GRAY);
 
 			g2d.setPaint(gp);
 			g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -186,16 +182,12 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 	}
 
 	private void initComponents() {
-		setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(Color.BLACK),
+		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		setLayout(new FormLayout(
-				"3dlu, pref, 1dlu, 200px:grow, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref",
-				"pref"));
+		setLayout(new FormLayout("3dlu, pref, 1dlu, 200px:grow, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref", "pref"));
 		CellConstraints cc = new CellConstraints();
 
-		JLabel dbLabel = new JLabel(
-				MongoBundle.getString(MongoBundle.Key.Database));
+		JLabel dbLabel = new JLabel(MongoBundle.getString(MongoBundle.Key.Database));
 		dbComboBox = new JComboBox(new DefaultComboBoxModel());
 		dbComboBox.setEnabled(false);
 		dbLabel.setLabelFor(dbComboBox);
@@ -204,53 +196,40 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 
 		dbNewCollectionButton = new JButton(new NewCollectionAction(context));
 		ImageIcon icon = new ImageIcon(
-				MongoControlPanel.class
-						.getResource("/com/mebigfatguy/mongobrowser/resources/newcollection.png"));
+				MongoControlPanel.class.getResource("/com/mebigfatguy/mongobrowser/resources/newcollection.png"));
 		dbNewCollectionButton.setIcon(icon);
 		dbNewCollectionButton.setText("");
-		dbNewCollectionButton.setPreferredSize(new Dimension(icon
-				.getIconWidth(), icon.getIconHeight()));
-		dbNewCollectionButton.setToolTipText(MongoBundle
-				.getString(MongoBundle.Key.NewCollection));
+		dbNewCollectionButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+		dbNewCollectionButton.setToolTipText(MongoBundle.getString(MongoBundle.Key.NewCollection));
 		add(dbNewCollectionButton, cc.xy(6, 1));
 		dbNewCollectionButton.setEnabled(false);
 
 		dbNewObjectButton = new JButton(new NewObjectAction(context));
 		icon = new ImageIcon(
-				MongoControlPanel.class
-						.getResource("/com/mebigfatguy/mongobrowser/resources/newobject.png"));
+				MongoControlPanel.class.getResource("/com/mebigfatguy/mongobrowser/resources/newobject.png"));
 		dbNewObjectButton.setIcon(icon);
 		dbNewObjectButton.setText("");
-		dbNewObjectButton.setPreferredSize(new Dimension(icon.getIconWidth(),
-				icon.getIconHeight()));
-		dbNewObjectButton.setToolTipText(MongoBundle
-				.getString(MongoBundle.Key.NewObject));
+		dbNewObjectButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+		dbNewObjectButton.setToolTipText(MongoBundle.getString(MongoBundle.Key.NewObject));
 		add(dbNewObjectButton, cc.xy(8, 1));
 		dbNewObjectButton.setEnabled(false);
 
 		dbNewKeyValueButton = new JButton(new NewKeyValueAction(context));
 		icon = new ImageIcon(
-				MongoControlPanel.class
-						.getResource("/com/mebigfatguy/mongobrowser/resources/newkeyvalue.png"));
+				MongoControlPanel.class.getResource("/com/mebigfatguy/mongobrowser/resources/newkeyvalue.png"));
 		dbNewKeyValueButton.setIcon(icon);
 		dbNewKeyValueButton.setText("");
-		dbNewKeyValueButton.setPreferredSize(new Dimension(icon.getIconWidth(),
-				icon.getIconHeight()));
-		dbNewKeyValueButton.setToolTipText(MongoBundle
-				.getString(MongoBundle.Key.NewKeyValue));
+		dbNewKeyValueButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+		dbNewKeyValueButton.setToolTipText(MongoBundle.getString(MongoBundle.Key.NewKeyValue));
 		add(dbNewKeyValueButton, cc.xy(10, 1));
 		dbNewKeyValueButton.setEnabled(false);
 
 		dbDeleteButton = new JButton(new DeleteAction(context));
-		icon = new ImageIcon(
-				MongoControlPanel.class
-						.getResource("/com/mebigfatguy/mongobrowser/resources/delete.png"));
+		icon = new ImageIcon(MongoControlPanel.class.getResource("/com/mebigfatguy/mongobrowser/resources/delete.png"));
 		dbDeleteButton.setIcon(icon);
 		dbDeleteButton.setText(null);
-		dbDeleteButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon
-				.getIconHeight()));
-		dbDeleteButton.setToolTipText(MongoBundle
-				.getString(MongoBundle.Key.Delete));
+		dbDeleteButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+		dbDeleteButton.setToolTipText(MongoBundle.getString(MongoBundle.Key.Delete));
 		add(dbDeleteButton, cc.xy(12, 1));
 		dbDeleteButton.setEnabled(false);
 	}
@@ -263,16 +242,12 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 				if (ie.getStateChange() == ItemEvent.SELECTED) {
 					Object sel = dbComboBox.getSelectedItem();
 					if (sel instanceof String) {
-						context.setDatabase(context.getServer().getDB(
-								(String) sel));
+						context.setDatabase(context.getServer().getDB((String) sel));
 					} else {
-						String dbName = JOptionPane.showInputDialog(MongoBundle
-								.getString(MongoBundle.Key.NewDatabase));
+						String dbName = JOptionPane.showInputDialog(MongoBundle.getString(MongoBundle.Key.NewDatabase));
 						if (dbName != null) {
-							context.setDatabase(context.getServer().getDB(
-									dbName));
-							DefaultComboBoxModel model = (DefaultComboBoxModel) dbComboBox
-									.getModel();
+							context.setDatabase(context.getServer().getDB(dbName));
+							DefaultComboBoxModel model = (DefaultComboBoxModel) dbComboBox.getModel();
 							model.insertElementAt(dbName, model.getSize() - 1);
 						}
 					}

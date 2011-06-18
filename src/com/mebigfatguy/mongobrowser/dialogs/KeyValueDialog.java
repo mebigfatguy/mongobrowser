@@ -66,8 +66,7 @@ public class KeyValueDialog extends JDialog {
 	 */
 	private JPanel createFormPanel() {
 		JPanel p = new JPanel();
-		p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 5dlu, pref, 6dlu",
-				"6dlu, pref, 2dlu, pref, 6dlu"));
+		p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 5dlu, pref, 6dlu", "6dlu, pref, 2dlu, pref, 6dlu"));
 		CellConstraints cc = new CellConstraints();
 
 		JLabel keyLabel = new JLabel(MongoBundle.getString(MongoBundle.Key.Key));
@@ -78,16 +77,14 @@ public class KeyValueDialog extends JDialog {
 
 		keyLabel.setLabelFor(keyField);
 
-		JLabel valueLabel = new JLabel(
-				MongoBundle.getString(MongoBundle.Key.Value));
+		JLabel valueLabel = new JLabel(MongoBundle.getString(MongoBundle.Key.Value));
 		p.add(valueLabel, cc.xy(2, 4));
 
 		valueField = new JTextField();
 		p.add(valueField, cc.xy(4, 4));
 
 		valueTypeBox = new JComboBox();
-		DefaultComboBoxModel model = (DefaultComboBoxModel) valueTypeBox
-				.getModel();
+		DefaultComboBoxModel model = (DefaultComboBoxModel) valueTypeBox.getModel();
 		model.addElement(new IntegerValueType());
 		model.addElement(new DoubleValueType());
 		model.addElement(new FloatValueType());
@@ -116,8 +113,7 @@ public class KeyValueDialog extends JDialog {
 		p.add(okButton);
 		p.add(Box.createHorizontalStrut(10));
 
-		cancelButton = new JButton(
-				MongoBundle.getString(MongoBundle.Key.Cancel));
+		cancelButton = new JButton(MongoBundle.getString(MongoBundle.Key.Cancel));
 		p.add(cancelButton);
 		p.add(Box.createHorizontalStrut(10));
 
@@ -181,8 +177,7 @@ public class KeyValueDialog extends JDialog {
 	 * @return the typed value
 	 */
 	public Object getValue() {
-		return ((ValueType) valueTypeBox.getSelectedItem())
-				.getValue(valueField);
+		return ((ValueType) valueTypeBox.getSelectedItem()).getValue(valueField);
 	}
 
 	/**

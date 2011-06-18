@@ -19,12 +19,13 @@
 package com.mebigfatguy.mongobrowser.dialogs;
 
 /**
- * a common interface for panels to be informed when a database
- * is connected to or disconnected from
+ * a common interface for panels to be informed when a database is connected to
+ * or disconnected from
  */
 public interface MongoPanel {
 	/** a connection to a server has been initiated */
 	void init();
+
 	/** a connection to a server has been terminated */
 	void term();
 }

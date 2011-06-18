@@ -61,49 +61,38 @@ public class DeleteAction extends AbstractAction {
 			if (nodeType == type) {
 				switch (nodeType) {
 					case Collection: {
-						DBCollection collection = (DBCollection) node
-								.getUserObject();
+						DBCollection collection = (DBCollection) node.getUserObject();
 						collection.drop();
 						MongoTreeNode dbNode = (MongoTreeNode) node.getParent();
 						dbNode.remove(node);
-						DefaultTreeModel model = (DefaultTreeModel) context
-								.getTree().getModel();
+						DefaultTreeModel model = (DefaultTreeModel) context.getTree().getModel();
 						model.nodeStructureChanged(dbNode);
 					}
 					break;
 
 					case Object: {
 						DBObject object = (DBObject) node.getUserObject();
-						MongoTreeNode collectionNode = TreeUtils
-								.findCollectionNode(node);
-						DBCollection collection = (DBCollection) collectionNode
-								.getUserObject();
+						MongoTreeNode collectionNode = TreeUtils.findCollectionNode(node);
+						DBCollection collection = (DBCollection) collectionNode.getUserObject();
 						collection.remove(object);
 						collectionNode.remove(node);
-						DefaultTreeModel model = (DefaultTreeModel) context
-								.getTree().getModel();
+						DefaultTreeModel model = (DefaultTreeModel) context.getTree().getModel();
 						model.nodeStructureChanged(collectionNode);
 					}
 					break;
 
 					case KeyValue: {
-						MongoTreeNode.KV kv = (MongoTreeNode.KV) node
-								.getUserObject();
+						MongoTreeNode.KV kv = (MongoTreeNode.KV) node.getUserObject();
 						String key = kv.getKey();
 						if (!key.startsWith("_")) {
-							MongoTreeNode objectNode = (MongoTreeNode) node
-									.getParent();
-							DBObject object = (DBObject) objectNode
-									.getUserObject();
+							MongoTreeNode objectNode = (MongoTreeNode) node.getParent();
+							DBObject object = (DBObject) objectNode.getUserObject();
 							object.removeField(key);
-							MongoTreeNode collectionNode = TreeUtils
-									.findCollectionNode(objectNode);
-							DBCollection collection = (DBCollection) collectionNode
-									.getUserObject();
+							MongoTreeNode collectionNode = TreeUtils.findCollectionNode(objectNode);
+							DBCollection collection = (DBCollection) collectionNode.getUserObject();
 							collection.save(object);
 							objectNode.remove(node);
-							DefaultTreeModel model = (DefaultTreeModel) context
-									.getTree().getModel();
+							DefaultTreeModel model = (DefaultTreeModel) context.getTree().getModel();
 							model.nodeStructureChanged(objectNode);
 						}
 					}

@@ -38,19 +38,16 @@ public class MongoTreeCellRenderer extends DefaultTreeCellRenderer {
 	Icon indexIcon;
 
 	public MongoTreeCellRenderer() {
-		indexIcon = new ImageIcon(getClass().getResource(
-				"/com/mebigfatguy/mongobrowser/resources/index.png"));
+		indexIcon = new ImageIcon(getClass().getResource("/com/mebigfatguy/mongobrowser/resources/index.png"));
 	}
 
 	@Override
-	public Component getTreeCellRendererComponent(JTree tree, Object value,
-			boolean sel, boolean expanded, boolean leaf, int row,
-			boolean hasFocus) {
+	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
+			boolean leaf, int row, boolean hasFocus) {
 
 		MongoTreeNode treeNode = (MongoTreeNode) value;
 
-		JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value,
-				sel, expanded, leaf, row, hasFocus);
+		JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		label.setHorizontalTextPosition(JLabel.RIGHT);
 		label.setVerticalTextPosition(JLabel.CENTER);
 
@@ -61,13 +58,11 @@ public class MongoTreeCellRenderer extends DefaultTreeCellRenderer {
 
 			do {
 				parentTreeNode = (MongoTreeNode) parentTreeNode.getParent();
-			} while ((parentTreeNode != null)
-					&& (parentTreeNode.getType() != Type.Collection));
+			} while ((parentTreeNode != null) && (parentTreeNode.getType() != Type.Collection));
 
 			if (parentTreeNode != null) {
 
-				DBCollection collection = (DBCollection) parentTreeNode
-						.getUserObject();
+				DBCollection collection = (DBCollection) parentTreeNode.getUserObject();
 				List<DBObject> indices = collection.getIndexInfo();
 				String key = ((KV) treeNode.getUserObject()).getKey();
 

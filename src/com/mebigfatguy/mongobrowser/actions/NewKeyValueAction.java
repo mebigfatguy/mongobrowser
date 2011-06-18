@@ -65,24 +65,20 @@ public class NewKeyValueAction extends AbstractAction {
 				DBObject object;
 
 				if (selectedNode.getType() == MongoTreeNode.Type.KeyValue) {
-					object = (DBObject) ((MongoTreeNode.KV) selectedNode
-							.getUserObject()).getValue();
+					object = (DBObject) ((MongoTreeNode.KV) selectedNode.getUserObject()).getValue();
 				} else {
 					object = (DBObject) selectedNode.getUserObject();
 				}
 
 				object.put(key, value);
-				MongoTreeNode kv = new MongoTreeNode(new MongoTreeNode.KV(key,
-						object.get(key)), false);
+				MongoTreeNode kv = new MongoTreeNode(new MongoTreeNode.KV(key, object.get(key)), false);
 				selectedNode.add(kv);
 				if (value instanceof DBObject) {
 					MongoTreeNode slug = new MongoTreeNode();
 					kv.add(slug);
 				}
-				MongoTreeNode collectionNode = TreeUtils
-						.findCollectionNode(selectedNode);
-				DBCollection collection = (DBCollection) collectionNode
-						.getUserObject();
+				MongoTreeNode collectionNode = TreeUtils.findCollectionNode(selectedNode);
+				DBCollection collection = (DBCollection) collectionNode.getUserObject();
 				collection.save(object);
 
 				DefaultTreeModel model = (DefaultTreeModel) tree.getModel();

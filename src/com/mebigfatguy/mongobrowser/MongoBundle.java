@@ -20,7 +20,7 @@ package com.mebigfatguy.mongobrowser;
 
 import java.util.ResourceBundle;
 
-/** 
+/**
  * manages the resource bundle properties file for this application
  */
 public class MongoBundle {
@@ -29,40 +29,25 @@ public class MongoBundle {
 	 * an enumeration of all the possible entries in the bundle
 	 */
 	public enum Key {
-		OK("mongo.ok"),
-		Cancel("mongo.cancel"),
-		Title("mongo.title"),
-		Servers("mongo.servers"),
-		Connect("mongo.connect"),
-		Disconnect("mongo.disconnect"),
-		ConnectToServer("mongo.connecttoserver"),
-		Server("mongo.server"),
-		Port("mongo.port"),
-		Database("mongo.database"),
-		NewDatabase("mongo.newdatabase"),
-		NewCollection("mongo.newcollection"),
-		NewObject("mongo.newobject"),
-		NewKeyValue("mongo.newkeyvalue"),
-		Key("mongo.key"),
-		Value("mongo.value"),
-		Integer("mongo.integer"),
-		Double("mongo.double"),
-		Float("mongo.float"),
-		String("mongo.string"),
-		Object("mongo.object"),
-		Delete("mongo.delete");
-		
+		OK("mongo.ok"), Cancel("mongo.cancel"), Title("mongo.title"), Servers("mongo.servers"), Connect("mongo.connect"), Disconnect(
+				"mongo.disconnect"), ConnectToServer("mongo.connecttoserver"), Server("mongo.server"), Port(
+				"mongo.port"), Database("mongo.database"), NewDatabase("mongo.newdatabase"), NewCollection(
+				"mongo.newcollection"), NewObject("mongo.newobject"), NewKeyValue("mongo.newkeyvalue"), Key("mongo.key"), Value(
+				"mongo.value"), Integer("mongo.integer"), Double("mongo.double"), Float("mongo.float"), String(
+				"mongo.string"), Object("mongo.object"), Delete("mongo.delete");
+
 		String id;
-		
+
 		/**
 		 * creates a key given the properties file name
 		 * 
-		 * @param id the properties file entry name
+		 * @param id
+		 *            the properties file entry name
 		 */
 		Key(String id) {
 			this.id = id;
 		}
-		
+
 		/**
 		 * retrieves the properties file entry name for this Key
 		 * 
@@ -72,20 +57,22 @@ public class MongoBundle {
 			return id;
 		}
 	};
-	
+
 	private static ResourceBundle bundle = ResourceBundle.getBundle("com/mebigfatguy/mongobrowser/resources/resource");
-	
+
 	/**
-	 * protects this class from being instantiated as it is meant to be accessed as a static class
+	 * protects this class from being instantiated as it is meant to be accessed
+	 * as a static class
 	 */
 	private MongoBundle() {
-		
+
 	}
-	
+
 	/**
 	 * retrieves a string from a resource bundle given a key
 	 * 
-	 * @param key the key of the property item that is to be retrieved
+	 * @param key
+	 *            the key of the property item that is to be retrieved
 	 * @return the string representing the localized name
 	 */
 	public static String getString(Key key) {

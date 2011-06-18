@@ -38,14 +38,14 @@ import com.mongodb.DBCollection;
 public class NewCollectionAction extends AbstractAction {
 
 	private static final long serialVersionUID = 9090870672875251498L;
-	
+
 	private MongoContext context;
-	
+
 	public NewCollectionAction(MongoContext ctxt) {
 		super(MongoBundle.getString(MongoBundle.Key.NewCollection));
 		context = ctxt;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JTree tree = context.getTree();
@@ -53,8 +53,8 @@ public class NewCollectionAction extends AbstractAction {
 		if (collectionName != null) {
 			DB db = context.getDatabase();
 			DBCollection dbCollection = db.getCollection(collectionName);
-			DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
-			MongoTreeNode root = (MongoTreeNode)model.getRoot();
+			DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+			MongoTreeNode root = (MongoTreeNode) model.getRoot();
 			MongoTreeNode collectionNode = new MongoTreeNode(dbCollection, false);
 			root.add(collectionNode);
 			MongoTreeNode slug = new MongoTreeNode();

@@ -36,12 +36,12 @@ public class ConnectAction extends AbstractAction {
 
 	private static final long serialVersionUID = -4704951174439411332L;
 	private MongoContext context;
-	
+
 	public ConnectAction(MongoContext ctxt) {
 		super(MongoBundle.getString(MongoBundle.Key.Connect));
 		context = ctxt;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {

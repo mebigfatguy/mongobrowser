@@ -38,26 +38,26 @@ public class NewObjectAction extends AbstractAction {
 
 	private static final long serialVersionUID = 5752147095730092598L;
 	private MongoContext context;
-	
+
 	public NewObjectAction(MongoContext ctxt) {
 		super(MongoBundle.getString(MongoBundle.Key.NewObject));
 		context = ctxt;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JTree tree = context.getTree();
 		TreePath path = tree.getSelectionPath();
-		MongoTreeNode collectionNode = (MongoTreeNode)path.getLastPathComponent();
+		MongoTreeNode collectionNode = (MongoTreeNode) path.getLastPathComponent();
 		DBCollection dbCollection = (DBCollection) collectionNode.getUserObject();
 		BasicDBObject dbObj = new BasicDBObject();
 		dbCollection.insert(dbObj);
-		DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
+		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 		MongoTreeNode objectNode = new MongoTreeNode(dbObj, false);
 		collectionNode.add(objectNode);
 		MongoTreeNode slug = new MongoTreeNode();
 		objectNode.add(slug);
-		model.nodeStructureChanged((MongoTreeNode)model.getRoot());
+		model.nodeStructureChanged((MongoTreeNode) model.getRoot());
 		TreePath selection = new TreePath(objectNode.getPath());
 		tree.scrollPathToVisible(selection);
 		tree.setSelectionPath(selection);
