@@ -39,6 +39,7 @@ import javax.swing.tree.TreePath;
 import com.mebigfatguy.mongobrowser.MongoContext;
 import com.mebigfatguy.mongobrowser.TreeUtils;
 import com.mebigfatguy.mongobrowser.actions.DeleteAction;
+import com.mebigfatguy.mongobrowser.actions.ManageIndicesAction;
 import com.mebigfatguy.mongobrowser.actions.NewCollectionAction;
 import com.mebigfatguy.mongobrowser.actions.NewKeyValueAction;
 import com.mebigfatguy.mongobrowser.actions.NewObjectAction;
@@ -55,6 +56,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 	private static final long serialVersionUID = 1579613544693305078L;
 	private final MongoContext context;
 	private JTree tree;
+	private JMenuItem manageIndicesItem;
 	private JMenuItem newCollectionItem;
 	private JMenuItem newObjectItem;
 	private JMenuItem newKeyValueItem;
@@ -125,6 +127,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 		context.setTree(tree);
 
 		newCollectionItem = new JMenuItem(new NewCollectionAction(context));
+		manageIndicesItem = new JMenuItem(new ManageIndicesAction(context));
 		newObjectItem = new JMenuItem(new NewObjectAction(context));
 		newKeyValueItem = new JMenuItem(new NewKeyValueAction(context));
 		deleteItem = new JMenuItem(new DeleteAction(context));
@@ -167,6 +170,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 						context.setSelectedNodes(node);
 						if (node.getType() == MongoTreeNode.Type.Collection) {
 							if (!node.isReadOnly()) {
+								menu.add(manageIndicesItem);
 								menu.add(newObjectItem);
 								menu.show(tree, x, y);
 							}
