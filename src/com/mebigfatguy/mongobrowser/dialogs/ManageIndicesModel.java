@@ -39,6 +39,11 @@ public class ManageIndicesModel extends AbstractTableModel {
 		return indices;
 	}
 
+	public void add(IndexDescription index) {
+		indices.add(index);
+		fireTableRowsInserted(indices.size() - 1, indices.size() - 1);
+	}
+
 	@Override
 	public int getRowCount() {
 		return indices.size();

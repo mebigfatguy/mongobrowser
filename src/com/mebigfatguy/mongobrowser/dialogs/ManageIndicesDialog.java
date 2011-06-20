@@ -95,6 +95,16 @@ public class ManageIndicesDialog extends JDialog {
 				dispose();
 			}
 		});
+
+		addIndexButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IndexDescription index = new IndexDescription(indexNameField.getText(), true, false);
+				ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
+				model.add(index);
+			}
+		});
 	}
 
 	private JPanel createIndicesListPanel(List<IndexDescription> indices) {
