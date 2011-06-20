@@ -19,7 +19,9 @@
 package com.mebigfatguy.mongobrowser.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.JTree;
@@ -27,6 +29,9 @@ import javax.swing.JTree;
 import com.mebigfatguy.mongobrowser.MongoBundle;
 import com.mebigfatguy.mongobrowser.MongoContext;
 import com.mebigfatguy.mongobrowser.dialogs.ManageIndicesDialog;
+import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 public class ManageIndicesAction extends AbstractAction {
 
@@ -41,13 +46,23 @@ public class ManageIndicesAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JTree tree = context.getTree();
-		ManageIndicesDialog dialog = new ManageIndicesDialog();
+
+		MongoTreeNode[] nodes = context.getSelectedNodes();
+		List<String> indices = new ArrayList<String>();
+		DBCollection collection = (DBCollection) nodes[0].getUserObject();
+		List<DBObject> dbIndices = collection.getIndexInfo();
+		for (DBObject dbIndex : dbIndices) {
+			String indexName = ((Map<String, String>) dbIndex.get("key")).keySet().iterator().next();
+			indices.add(indexName);
+		}
+
+		ManageIndicesDialog dialog = new ManageIndicesDialog(indices);
 		dialog.setLocationRelativeTo(tree);
 		dialog.setModal(true);
 		dialog.setVisible(true);
 
 		if (dialog.isOK()) {
-			List<String> indices = dialog.getIndicesNames();
+			indices = dialog.getIndicesNames();
 		}
 	}
 }

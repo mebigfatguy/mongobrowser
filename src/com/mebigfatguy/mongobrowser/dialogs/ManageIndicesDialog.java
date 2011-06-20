@@ -52,9 +52,9 @@ public class ManageIndicesDialog extends JDialog {
 	private JButton cancelButton;
 	private boolean ok = false;
 
-	public ManageIndicesDialog() {
+	public ManageIndicesDialog(List<String> names) {
 		setTitle(MongoBundle.getString(MongoBundle.Key.ManageIndices));
-		initComponents();
+		initComponents(names);
 		initListeners();
 		pack();
 	}
@@ -79,10 +79,10 @@ public class ManageIndicesDialog extends JDialog {
 		return names;
 	}
 
-	private void initComponents() {
+	private void initComponents(List<String> names) {
 		Container cp = getContentPane();
 		cp.setLayout(new BorderLayout(4, 4));
-		cp.add(createIndicesListPanel(), BorderLayout.CENTER);
+		cp.add(createIndicesListPanel(names), BorderLayout.CENTER);
 		cp.add(createCtrlPanel(), BorderLayout.SOUTH);
 	}
 
@@ -103,13 +103,18 @@ public class ManageIndicesDialog extends JDialog {
 		});
 	}
 
-	private JPanel createIndicesListPanel() {
+	private JPanel createIndicesListPanel(List<String> names) {
 		JPanel p = new JPanel();
 		p.setLayout(new FormLayout("6dlu, pref, 5dlu, pref, 6dlu",
 				"6dlu, 12dlu:grow, pref, 12dlu:grow, 6dlu, pref, 6dlu"));
 		CellConstraints cc = new CellConstraints();
 
-		indicesList = new JList(new DefaultListModel());
+		DefaultListModel model = new DefaultListModel();
+		for (String name : names) {
+			model.addElement(name);
+		}
+
+		indicesList = new JList(model);
 		p.add(new JScrollPane(indicesList), cc.xywh(2, 2, 1, 3));
 
 		removeIndexButton = new JButton(MongoBundle.getString(MongoBundle.Key.RemoveIndex));

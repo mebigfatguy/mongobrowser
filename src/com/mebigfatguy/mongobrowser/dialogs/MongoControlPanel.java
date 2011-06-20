@@ -128,7 +128,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 			dbDeleteButton.setEnabled(false);
 		} else {
 
-			boolean canDoManageIndices = true;
+			boolean canDoManageIndices = selectedNodes.length == 1;
 			boolean canDoNewObject = true;
 			boolean canDoNewKeyValue = true;
 			boolean canDoDelete = true;
