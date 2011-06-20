@@ -30,6 +30,7 @@ import com.mebigfatguy.mongobrowser.MongoBundle;
 import com.mebigfatguy.mongobrowser.MongoContext;
 import com.mebigfatguy.mongobrowser.dialogs.ManageIndicesDialog;
 import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode;
+import com.mebigfatguy.mongobrowser.model.IndexDescription;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
@@ -48,12 +49,12 @@ public class ManageIndicesAction extends AbstractAction {
 		JTree tree = context.getTree();
 
 		MongoTreeNode[] nodes = context.getSelectedNodes();
-		List<String> indices = new ArrayList<String>();
+		List<IndexDescription> indices = new ArrayList<IndexDescription>();
 		DBCollection collection = (DBCollection) nodes[0].getUserObject();
 		List<DBObject> dbIndices = collection.getIndexInfo();
 		for (DBObject dbIndex : dbIndices) {
-			String indexName = ((Map<String, String>) dbIndex.get("key")).keySet().iterator().next();
-			indices.add(indexName);
+			Map.Entry<String, String> entry = ((Map<String, String>) dbIndex.get("key")).entrySet().iterator().next();
+			indices.add(new IndexDescription(entry.getKey(), "1".equals(entry.getValue()), false));
 		}
 
 		ManageIndicesDialog dialog = new ManageIndicesDialog(indices);

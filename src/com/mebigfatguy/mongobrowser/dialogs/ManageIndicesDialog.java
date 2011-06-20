@@ -22,29 +22,28 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.mongobrowser.MongoBundle;
+import com.mebigfatguy.mongobrowser.model.IndexDescription;
 
 public class ManageIndicesDialog extends JDialog {
 
-	private static final long serialVersionUID = -1871109721924940686L;
+	private static final long serialVersionUID = -4263800895451732866L;
 
-	private JList indicesList;
+	private JTable indicesTable;
 	private JButton removeIndexButton;
 	private JButton addIndexButton;
 	private JTextField indexNameField;
@@ -52,9 +51,9 @@ public class ManageIndicesDialog extends JDialog {
 	private JButton cancelButton;
 	private boolean ok = false;
 
-	public ManageIndicesDialog(List<String> names) {
+	public ManageIndicesDialog(List<IndexDescription> indices) {
 		setTitle(MongoBundle.getString(MongoBundle.Key.ManageIndices));
-		initComponents(names);
+		initComponents(indices);
 		initListeners();
 		pack();
 	}
@@ -68,21 +67,16 @@ public class ManageIndicesDialog extends JDialog {
 		return ok;
 	}
 
-	public List<String> getIndicesNames() {
+	public List<IndexDescription> getIndicesNames() {
 
-		List<String> names = new ArrayList<String>();
-		DefaultListModel model = (DefaultListModel) indicesList.getModel();
-		for (int i = 0; i < model.getSize(); i++) {
-			names.add((String) model.get(i));
-		}
-
-		return names;
+		ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
+		return model.getIndices();
 	}
 
-	private void initComponents(List<String> names) {
+	private void initComponents(List<IndexDescription> indices) {
 		Container cp = getContentPane();
 		cp.setLayout(new BorderLayout(4, 4));
-		cp.add(createIndicesListPanel(names), BorderLayout.CENTER);
+		cp.add(createIndicesListPanel(indices), BorderLayout.CENTER);
 		cp.add(createCtrlPanel(), BorderLayout.SOUTH);
 	}
 
@@ -103,19 +97,16 @@ public class ManageIndicesDialog extends JDialog {
 		});
 	}
 
-	private JPanel createIndicesListPanel(List<String> names) {
+	private JPanel createIndicesListPanel(List<IndexDescription> indices) {
 		JPanel p = new JPanel();
 		p.setLayout(new FormLayout("6dlu, pref, 5dlu, pref, 6dlu",
 				"6dlu, 12dlu:grow, pref, 12dlu:grow, 6dlu, pref, 6dlu"));
 		CellConstraints cc = new CellConstraints();
 
-		DefaultListModel model = new DefaultListModel();
-		for (String name : names) {
-			model.addElement(name);
-		}
+		ManageIndicesModel model = new ManageIndicesModel(indices);
 
-		indicesList = new JList(model);
-		p.add(new JScrollPane(indicesList), cc.xywh(2, 2, 1, 3));
+		indicesTable = new JTable(model);
+		p.add(new JScrollPane(indicesTable), cc.xywh(2, 2, 1, 3));
 
 		removeIndexButton = new JButton(MongoBundle.getString(MongoBundle.Key.RemoveIndex));
 		p.add(removeIndexButton, cc.xy(4, 3));
