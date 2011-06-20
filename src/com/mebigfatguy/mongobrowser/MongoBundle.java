@@ -33,9 +33,9 @@ public class MongoBundle {
 				"mongo.disconnect"), ConnectToServer("mongo.connecttoserver"), Server("mongo.server"), Port(
 				"mongo.port"), Database("mongo.database"), NewDatabase("mongo.newdatabase"), NewCollection(
 				"mongo.newcollection"), ManageIndices("mongo.manageindices"), NewObject("mongo.newobject"), NewKeyValue(
-				"mongo.newkeyvalue"), Key("mongo.key"), Value("mongo.value"), Integer("mongo.integer"), Double(
-				"mongo.double"), Float("mongo.float"), String("mongo.string"), Object("mongo.object"), Delete(
-				"mongo.delete");
+				"mongo.newkeyvalue"), RemoveIndex("mongo.removeindex"), AddIndex("mongo.addindex"), Key("mongo.key"), Value(
+				"mongo.value"), Integer("mongo.integer"), Double("mongo.double"), Float("mongo.float"), String(
+				"mongo.string"), Object("mongo.object"), Delete("mongo.delete");
 
 		String id;
 

@@ -19,6 +19,7 @@
 package com.mebigfatguy.mongobrowser.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JTree;
@@ -44,5 +45,9 @@ public class ManageIndicesAction extends AbstractAction {
 		dialog.setLocationRelativeTo(tree);
 		dialog.setModal(true);
 		dialog.setVisible(true);
+
+		if (dialog.isOK()) {
+			List<String> indices = dialog.getIndicesNames();
+		}
 	}
 }
