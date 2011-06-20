@@ -32,9 +32,10 @@ public class MongoBundle {
 		OK("mongo.ok"), Cancel("mongo.cancel"), Title("mongo.title"), Servers("mongo.servers"), Connect("mongo.connect"), Disconnect(
 				"mongo.disconnect"), ConnectToServer("mongo.connecttoserver"), Server("mongo.server"), Port(
 				"mongo.port"), Database("mongo.database"), NewDatabase("mongo.newdatabase"), NewCollection(
-				"mongo.newcollection"), NewObject("mongo.newobject"), NewKeyValue("mongo.newkeyvalue"), Key("mongo.key"), Value(
-				"mongo.value"), Integer("mongo.integer"), Double("mongo.double"), Float("mongo.float"), String(
-				"mongo.string"), Object("mongo.object"), Delete("mongo.delete");
+				"mongo.newcollection"), ManageIndices("mongo.manageindices"), NewObject("mongo.newobject"), NewKeyValue(
+				"mongo.newkeyvalue"), Key("mongo.key"), Value("mongo.value"), Integer("mongo.integer"), Double(
+				"mongo.double"), Float("mongo.float"), String("mongo.string"), Object("mongo.object"), Delete(
+				"mongo.delete");
 
 		String id;
 

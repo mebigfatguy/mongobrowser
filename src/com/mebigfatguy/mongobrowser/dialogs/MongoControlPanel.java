@@ -43,6 +43,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.mongobrowser.MongoBundle;
 import com.mebigfatguy.mongobrowser.MongoContext;
 import com.mebigfatguy.mongobrowser.actions.DeleteAction;
+import com.mebigfatguy.mongobrowser.actions.ManageIndicesAction;
 import com.mebigfatguy.mongobrowser.actions.NewCollectionAction;
 import com.mebigfatguy.mongobrowser.actions.NewKeyValueAction;
 import com.mebigfatguy.mongobrowser.actions.NewObjectAction;
@@ -58,6 +59,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 	private final MongoContext context;
 	private JComboBox dbComboBox;
 	private JButton dbNewCollectionButton;
+	private JButton dbManageIndicesButton;
 	private JButton dbNewObjectButton;
 	private JButton dbNewKeyValueButton;
 	private JButton dbDeleteButton;
@@ -120,11 +122,13 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 	public void adjustEnabled(MongoTreeNode... selectedNodes) {
 		if ((selectedNodes == null) || (selectedNodes.length == 0)) {
 			dbNewCollectionButton.setEnabled(true);
+			dbManageIndicesButton.setEnabled(false);
 			dbNewObjectButton.setEnabled(false);
 			dbNewKeyValueButton.setEnabled(false);
 			dbDeleteButton.setEnabled(false);
 		} else {
 
+			boolean canDoManageIndices = true;
 			boolean canDoNewObject = true;
 			boolean canDoNewKeyValue = true;
 			boolean canDoDelete = true;
@@ -137,12 +141,14 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 					break;
 
 					case Object:
+						canDoManageIndices = false;
 						canDoNewObject = false;
 					break;
 
 					case KeyValue:
 						MongoTreeNode.KV kv = (MongoTreeNode.KV) selectedNode.getUserObject();
 						Object value = kv.getValue();
+						canDoManageIndices = false;
 						canDoNewObject = false;
 						canDoNewKeyValue = value instanceof DBObject;
 						canDoDelete = !kv.getKey().startsWith("_");
@@ -150,6 +156,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 				}
 
 				if (selectedNode.isReadOnly()) {
+					canDoManageIndices = false;
 					canDoNewObject = false;
 					canDoNewKeyValue = false;
 					canDoDelete = false;
@@ -157,6 +164,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 			}
 
 			dbNewCollectionButton.setEnabled(true);
+			dbManageIndicesButton.setEnabled(true);
 			dbNewObjectButton.setEnabled(canDoNewObject);
 			dbNewKeyValueButton.setEnabled(canDoNewKeyValue);
 			dbDeleteButton.setEnabled(canDoDelete);
@@ -184,7 +192,8 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 	private void initComponents() {
 		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		setLayout(new FormLayout("3dlu, pref, 1dlu, 200px:grow, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref", "pref"));
+		setLayout(new FormLayout(
+				"3dlu, pref, 1dlu, 200px:grow, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref", "pref"));
 		CellConstraints cc = new CellConstraints();
 
 		JLabel dbLabel = new JLabel(MongoBundle.getString(MongoBundle.Key.Database));
@@ -204,6 +213,16 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 		add(dbNewCollectionButton, cc.xy(6, 1));
 		dbNewCollectionButton.setEnabled(false);
 
+		dbManageIndicesButton = new JButton(new ManageIndicesAction(context));
+		icon = new ImageIcon(
+				MongoControlPanel.class.getResource("/com/mebigfatguy/mongobrowser/resources/manageindices.png"));
+		dbManageIndicesButton.setIcon(icon);
+		dbManageIndicesButton.setText("");
+		dbManageIndicesButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+		dbManageIndicesButton.setToolTipText(MongoBundle.getString(MongoBundle.Key.ManageIndices));
+		add(dbManageIndicesButton, cc.xy(8, 1));
+		dbManageIndicesButton.setEnabled(false);
+
 		dbNewObjectButton = new JButton(new NewObjectAction(context));
 		icon = new ImageIcon(
 				MongoControlPanel.class.getResource("/com/mebigfatguy/mongobrowser/resources/newobject.png"));
@@ -211,7 +230,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 		dbNewObjectButton.setText("");
 		dbNewObjectButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 		dbNewObjectButton.setToolTipText(MongoBundle.getString(MongoBundle.Key.NewObject));
-		add(dbNewObjectButton, cc.xy(8, 1));
+		add(dbNewObjectButton, cc.xy(10, 1));
 		dbNewObjectButton.setEnabled(false);
 
 		dbNewKeyValueButton = new JButton(new NewKeyValueAction(context));
@@ -221,7 +240,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 		dbNewKeyValueButton.setText("");
 		dbNewKeyValueButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 		dbNewKeyValueButton.setToolTipText(MongoBundle.getString(MongoBundle.Key.NewKeyValue));
-		add(dbNewKeyValueButton, cc.xy(10, 1));
+		add(dbNewKeyValueButton, cc.xy(12, 1));
 		dbNewKeyValueButton.setEnabled(false);
 
 		dbDeleteButton = new JButton(new DeleteAction(context));
@@ -230,7 +249,7 @@ public class MongoControlPanel extends JPanel implements MongoPanel {
 		dbDeleteButton.setText(null);
 		dbDeleteButton.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 		dbDeleteButton.setToolTipText(MongoBundle.getString(MongoBundle.Key.Delete));
-		add(dbDeleteButton, cc.xy(12, 1));
+		add(dbDeleteButton, cc.xy(14, 1));
 		dbDeleteButton.setEnabled(false);
 	}
 
