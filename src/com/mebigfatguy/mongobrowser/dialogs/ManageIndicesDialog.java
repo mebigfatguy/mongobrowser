@@ -37,6 +37,7 @@ import javax.swing.JTextField;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.mongobrowser.MongoBundle;
+import com.mebigfatguy.mongobrowser.SwingUtils;
 import com.mebigfatguy.mongobrowser.model.IndexDescription;
 
 public class ManageIndicesDialog extends JDialog {
@@ -78,6 +79,8 @@ public class ManageIndicesDialog extends JDialog {
 		cp.setLayout(new BorderLayout(4, 4));
 		cp.add(createIndicesListPanel(indices), BorderLayout.CENTER);
 		cp.add(createCtrlPanel(), BorderLayout.SOUTH);
+
+		SwingUtils.sizeUniformly(okButton, cancelButton, addIndexButton, removeIndexButton);
 	}
 
 	private void initListeners() {
@@ -137,7 +140,7 @@ public class ManageIndicesDialog extends JDialog {
 	 */
 	private JPanel createCtrlPanel() {
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+		p.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
 		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
 		p.add(Box.createHorizontalGlue());
 

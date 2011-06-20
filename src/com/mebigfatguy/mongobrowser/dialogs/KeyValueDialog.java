@@ -23,6 +23,7 @@ import javax.swing.text.PlainDocument;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.mongobrowser.MongoBundle;
+import com.mebigfatguy.mongobrowser.SwingUtils;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -116,6 +117,8 @@ public class KeyValueDialog extends JDialog {
 		cancelButton = new JButton(MongoBundle.getString(MongoBundle.Key.Cancel));
 		p.add(cancelButton);
 		p.add(Box.createHorizontalStrut(10));
+
+		SwingUtils.sizeUniformly(okButton, cancelButton);
 
 		return p;
 	}

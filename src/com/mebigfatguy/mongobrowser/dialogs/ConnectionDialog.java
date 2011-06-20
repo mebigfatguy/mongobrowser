@@ -35,6 +35,7 @@ import javax.swing.JTextField;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.mongobrowser.MongoBundle;
+import com.mebigfatguy.mongobrowser.SwingUtils;
 
 /**
  * a dialog for requesting server and port information for a mongo server
@@ -118,6 +119,8 @@ public class ConnectionDialog extends JDialog {
 		cancelButton = new JButton(MongoBundle.getString(MongoBundle.Key.Cancel));
 		p.add(cancelButton);
 		p.add(Box.createHorizontalStrut(10));
+
+		SwingUtils.sizeUniformly(okButton, cancelButton);
 
 		return p;
 	}
