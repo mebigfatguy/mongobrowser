@@ -5,15 +5,23 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import com.mebigfatguy.mongobrowser.model.IndexField;
 import com.mebigfatguy.mongobrowser.model.IndexFieldList;
 
 public class IndexFieldListCellRenderer implements TableCellRenderer {
+
+	private static final Icon ASCENDING = new ImageIcon(
+			IndexFieldListCellRenderer.class.getResource("/com/mebigfatguy/mongobrowser/resources/ascending.png"));
+	private static final Icon DESCENDING = new ImageIcon(
+			IndexFieldListCellRenderer.class.getResource("/com/mebigfatguy/mongobrowser/resources/descending.png"));
 
 	private final JPanel panel = new JPanel();
 	private final List<JLabel> fieldLabels = new ArrayList<JLabel>();
@@ -35,13 +43,17 @@ public class IndexFieldListCellRenderer implements TableCellRenderer {
 
 			for (int i = 0; i < fields.size(); i++) {
 				if (fieldLabels.size() <= i) {
-					fieldLabels.add(new JLabel());
+					JLabel l = new JLabel();
+					fieldLabels.add(l);
+					l.setHorizontalTextPosition(SwingConstants.LEFT);
+					l.setVerticalTextPosition(SwingConstants.CENTER);
 				}
 
 				JLabel l = fieldLabels.get(i);
 				l.setFont(table.getFont());
 				IndexField field = fields.get(i);
 				l.setText(field.getFieldName());
+				l.setIcon(field.isAscending() ? ASCENDING : DESCENDING);
 				panel.add(fieldLabels.get(i));
 			}
 		}
