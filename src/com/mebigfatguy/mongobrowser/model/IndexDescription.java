@@ -19,35 +19,26 @@
 package com.mebigfatguy.mongobrowser.model;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class IndexDescription implements Comparable<IndexDescription>, Serializable {
 
 	private static final long serialVersionUID = 1616892606319350318L;
 
 	private final String indexName;
-	private boolean ascending;
-	private final boolean readOnly;
+	private final Map<String, Boolean> indexFields;
 
-	public IndexDescription(String indexName, boolean ascending, boolean readOnly) {
-		this.indexName = indexName;
-		this.ascending = ascending;
-		this.readOnly = readOnly;
+	public IndexDescription(String name, Map<String, Boolean> fields) {
+		indexName = name;
+		indexFields = fields;
 	}
 
 	public String getIndexName() {
 		return indexName;
 	}
 
-	public boolean isAscending() {
-		return ascending;
-	}
-
-	public void setAscending(boolean isAscending) {
-		ascending = isAscending;
-	}
-
-	public boolean isReadOnly() {
-		return readOnly;
+	public Map<String, Boolean> getIndexFieldInfo() {
+		return indexFields;
 	}
 
 	@Override

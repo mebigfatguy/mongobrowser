@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -103,7 +104,7 @@ public class ManageIndicesDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IndexDescription index = new IndexDescription(indexNameField.getText(), true, false);
+				IndexDescription index = new IndexDescription(indexNameField.getText(), new HashMap<String, Boolean>());
 				ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
 				model.add(index);
 			}

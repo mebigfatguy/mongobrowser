@@ -51,7 +51,7 @@ public class ManageIndicesModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 1;
 	}
 
 	@Override
@@ -60,8 +60,6 @@ public class ManageIndicesModel extends AbstractTableModel {
 		switch (columnIndex) {
 			case 0:
 				return index.getIndexName();
-			case 1:
-				return Boolean.valueOf(index.isAscending());
 			default:
 				throw new IllegalArgumentException("columnIndex = " + columnIndex);
 		}
@@ -72,8 +70,6 @@ public class ManageIndicesModel extends AbstractTableModel {
 		switch (columnIndex) {
 			case 0:
 				return MongoBundle.getString(MongoBundle.Key.IndexName);
-			case 1:
-				return MongoBundle.getString(MongoBundle.Key.Ascending);
 			default:
 				throw new IllegalArgumentException("columnIndex = " + columnIndex);
 		}
@@ -84,8 +80,6 @@ public class ManageIndicesModel extends AbstractTableModel {
 		switch (columnIndex) {
 			case 0:
 				return String.class;
-			case 1:
-				return Boolean.class;
 			default:
 				throw new IllegalArgumentException("columnIndex = " + columnIndex);
 		}
@@ -95,15 +89,4 @@ public class ManageIndicesModel extends AbstractTableModel {
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return columnIndex == 1;
 	}
-
-	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		if (columnIndex == 1) {
-			IndexDescription index = indices.get(rowIndex);
-			index.setAscending(((Boolean) aValue).booleanValue());
-		} else {
-			throw new IllegalArgumentException("columnIndex = " + columnIndex);
-		}
-	}
-
 }

@@ -20,6 +20,7 @@ package com.mebigfatguy.mongobrowser.actions;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,8 +54,15 @@ public class ManageIndicesAction extends AbstractAction {
 		DBCollection collection = (DBCollection) nodes[0].getUserObject();
 		List<DBObject> dbIndices = collection.getIndexInfo();
 		for (DBObject dbIndex : dbIndices) {
-			Map.Entry<String, String> entry = ((Map<String, String>) dbIndex.get("key")).entrySet().iterator().next();
-			indices.add(new IndexDescription(entry.getKey(), "1".equals(entry.getValue()), false));
+			String name = (String) dbIndex.get("name");
+			Map<String, String> srcFields = (Map<String, String>) dbIndex.get("key");
+			Map<String, Boolean> fieldInfo = new HashMap<String, Boolean>();
+
+			for (Map.Entry<String, String> entry : srcFields.entrySet()) {
+				fieldInfo.put(entry.getKey(), "1".equals(entry.getValue()));
+			}
+
+			indices.add(new IndexDescription(name, fieldInfo));
 		}
 
 		ManageIndicesDialog dialog = new ManageIndicesDialog(indices);
