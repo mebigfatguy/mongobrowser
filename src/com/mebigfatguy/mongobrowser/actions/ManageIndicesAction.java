@@ -55,14 +55,16 @@ public class ManageIndicesAction extends AbstractAction {
 		List<DBObject> dbIndices = collection.getIndexInfo();
 		for (DBObject dbIndex : dbIndices) {
 			String name = (String) dbIndex.get("name");
-			Map<String, String> srcFields = (Map<String, String>) dbIndex.get("key");
-			Map<String, Boolean> fieldInfo = new HashMap<String, Boolean>();
+			if (!"_id_".equals(name)) {
+				Map<String, String> srcFields = (Map<String, String>) dbIndex.get("key");
+				Map<String, Boolean> fieldInfo = new HashMap<String, Boolean>();
 
-			for (Map.Entry<String, String> entry : srcFields.entrySet()) {
-				fieldInfo.put(entry.getKey(), "1".equals(entry.getValue()));
+				for (Map.Entry<String, String> entry : srcFields.entrySet()) {
+					fieldInfo.put(entry.getKey(), "1".equals(entry.getValue()));
+				}
+
+				indices.add(new IndexDescription(name, fieldInfo));
 			}
-
-			indices.add(new IndexDescription(name, fieldInfo));
 		}
 
 		ManageIndicesDialog dialog = new ManageIndicesDialog(indices);
