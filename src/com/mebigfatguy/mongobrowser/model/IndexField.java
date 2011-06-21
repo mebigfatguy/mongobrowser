@@ -18,46 +18,37 @@
  */
 package com.mebigfatguy.mongobrowser.model;
 
-import java.io.Serializable;
+public class IndexField {
 
-public class IndexDescription implements Comparable<IndexDescription>, Serializable {
+	private final String fieldName;
+	private final boolean ascending;
 
-	private static final long serialVersionUID = 1616892606319350318L;
+	public IndexField(String name, boolean asc) {
 
-	private final String indexName;
-	private final IndexFieldList indexFields;
-
-	public IndexDescription(String name, IndexFieldList fields) {
-		indexName = name;
-		indexFields = fields;
+		fieldName = name;
+		ascending = asc;
 	}
 
-	public String getIndexName() {
-		return indexName;
+	public String getFieldName() {
+		return fieldName;
 	}
 
-	public IndexFieldList getIndexFieldSet() {
-		return indexFields;
+	public boolean isAscending() {
+		return ascending;
 	}
 
 	@Override
 	public int hashCode() {
-		return indexName.hashCode();
+		return fieldName.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof IndexDescription) {
-			IndexDescription that = (IndexDescription) o;
-
-			return indexName.equals(that.indexName);
+		if (o instanceof IndexField) {
+			IndexField that = (IndexField) o;
+			return fieldName.equals(that.fieldName);
 		}
 
 		return false;
-	}
-
-	@Override
-	public int compareTo(IndexDescription o) {
-		return indexName.compareTo(o.indexName);
 	}
 }

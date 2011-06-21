@@ -22,7 +22,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -40,6 +39,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.mongobrowser.MongoBundle;
 import com.mebigfatguy.mongobrowser.SwingUtils;
 import com.mebigfatguy.mongobrowser.model.IndexDescription;
+import com.mebigfatguy.mongobrowser.model.IndexFieldList;
 
 public class ManageIndicesDialog extends JDialog {
 
@@ -104,7 +104,7 @@ public class ManageIndicesDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IndexDescription index = new IndexDescription(indexNameField.getText(), new HashMap<String, Boolean>());
+				IndexDescription index = new IndexDescription(indexNameField.getText(), new IndexFieldList());
 				ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
 				model.add(index);
 			}
@@ -120,6 +120,7 @@ public class ManageIndicesDialog extends JDialog {
 		ManageIndicesModel model = new ManageIndicesModel(indices);
 
 		indicesTable = new JTable(model);
+		indicesTable.setDefaultRenderer(IndexFieldList.class, new IndexFieldListCellRenderer());
 		p.add(new JScrollPane(indicesTable), cc.xywh(2, 2, 1, 3));
 
 		removeIndexButton = new JButton(MongoBundle.getString(MongoBundle.Key.RemoveIndex));

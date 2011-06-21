@@ -18,46 +18,42 @@
  */
 package com.mebigfatguy.mongobrowser.model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
-public class IndexDescription implements Comparable<IndexDescription>, Serializable {
+public class IndexFieldList implements Iterable<IndexField> {
 
-	private static final long serialVersionUID = 1616892606319350318L;
+	private final List<IndexField> indexFields = new ArrayList<IndexField>();
 
-	private final String indexName;
-	private final IndexFieldList indexFields;
-
-	public IndexDescription(String name, IndexFieldList fields) {
-		indexName = name;
-		indexFields = fields;
+	public IndexFieldList() {
 	}
 
-	public String getIndexName() {
-		return indexName;
+	public IndexFieldList(Collection<IndexField> fields) {
+		indexFields.addAll(fields);
 	}
 
-	public IndexFieldList getIndexFieldSet() {
-		return indexFields;
-	}
-
-	@Override
-	public int hashCode() {
-		return indexName.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof IndexDescription) {
-			IndexDescription that = (IndexDescription) o;
-
-			return indexName.equals(that.indexName);
+	public void add(String fieldName, boolean ascending) {
+		IndexField indexField = new IndexField(fieldName, ascending);
+		int index = indexFields.indexOf(indexField);
+		if (index < 0) {
+			indexFields.add(indexField);
+		} else {
+			indexFields.set(index, indexField);
 		}
-
-		return false;
 	}
 
 	@Override
-	public int compareTo(IndexDescription o) {
-		return indexName.compareTo(o.indexName);
+	public Iterator<IndexField> iterator() {
+		return indexFields.iterator();
+	}
+
+	public int size() {
+		return indexFields.size();
+	}
+
+	public IndexField get(int index) {
+		return indexFields.get(index);
 	}
 }

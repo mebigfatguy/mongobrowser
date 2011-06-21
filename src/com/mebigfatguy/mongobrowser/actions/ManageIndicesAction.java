@@ -20,7 +20,6 @@ package com.mebigfatguy.mongobrowser.actions;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +31,7 @@ import com.mebigfatguy.mongobrowser.MongoContext;
 import com.mebigfatguy.mongobrowser.dialogs.ManageIndicesDialog;
 import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode;
 import com.mebigfatguy.mongobrowser.model.IndexDescription;
+import com.mebigfatguy.mongobrowser.model.IndexFieldList;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
@@ -55,16 +55,14 @@ public class ManageIndicesAction extends AbstractAction {
 		List<DBObject> dbIndices = collection.getIndexInfo();
 		for (DBObject dbIndex : dbIndices) {
 			String name = (String) dbIndex.get("name");
-			if (!"_id_".equals(name)) {
-				Map<String, String> srcFields = (Map<String, String>) dbIndex.get("key");
-				Map<String, Boolean> fieldInfo = new HashMap<String, Boolean>();
+			Map<String, String> srcFields = (Map<String, String>) dbIndex.get("key");
+			IndexFieldList fieldSet = new IndexFieldList();
 
-				for (Map.Entry<String, String> entry : srcFields.entrySet()) {
-					fieldInfo.put(entry.getKey(), "1".equals(entry.getValue()));
-				}
-
-				indices.add(new IndexDescription(name, fieldInfo));
+			for (Map.Entry<String, String> entry : srcFields.entrySet()) {
+				fieldSet.add(entry.getKey(), "1".equals(entry.getValue()));
 			}
+
+			indices.add(new IndexDescription(name, fieldSet));
 		}
 
 		ManageIndicesDialog dialog = new ManageIndicesDialog(indices);

@@ -24,6 +24,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.mebigfatguy.mongobrowser.MongoBundle;
 import com.mebigfatguy.mongobrowser.model.IndexDescription;
+import com.mebigfatguy.mongobrowser.model.IndexFieldList;
 
 public class ManageIndicesModel extends AbstractTableModel {
 
@@ -51,7 +52,7 @@ public class ManageIndicesModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 1;
+		return 2;
 	}
 
 	@Override
@@ -60,6 +61,8 @@ public class ManageIndicesModel extends AbstractTableModel {
 		switch (columnIndex) {
 			case 0:
 				return index.getIndexName();
+			case 1:
+				return index.getIndexFieldSet();
 			default:
 				throw new IllegalArgumentException("columnIndex = " + columnIndex);
 		}
@@ -70,6 +73,8 @@ public class ManageIndicesModel extends AbstractTableModel {
 		switch (columnIndex) {
 			case 0:
 				return MongoBundle.getString(MongoBundle.Key.IndexName);
+			case 1:
+				return MongoBundle.getString(MongoBundle.Key.IndexFields);
 			default:
 				throw new IllegalArgumentException("columnIndex = " + columnIndex);
 		}
@@ -80,6 +85,8 @@ public class ManageIndicesModel extends AbstractTableModel {
 		switch (columnIndex) {
 			case 0:
 				return String.class;
+			case 1:
+				return IndexFieldList.class;
 			default:
 				throw new IllegalArgumentException("columnIndex = " + columnIndex);
 		}
