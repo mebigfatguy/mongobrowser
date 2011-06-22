@@ -77,6 +77,14 @@ public class IndexFieldListCellEditor extends AbstractCellEditor implements Tabl
 		panel.removeAll();
 		panel.setFont(table.getFont());
 
+		if (isSelected) {
+			panel.setBackground(table.getSelectionBackground());
+			panel.setForeground(table.getSelectionForeground());
+		} else {
+			panel.setBackground(table.getBackground());
+			panel.setForeground(table.getForeground());
+		}
+
 		if (value instanceof IndexFieldList) {
 			IndexFieldList fields = (IndexFieldList) value;
 
