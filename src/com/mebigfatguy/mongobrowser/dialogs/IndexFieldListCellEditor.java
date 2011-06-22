@@ -113,7 +113,7 @@ public class IndexFieldListCellEditor extends AbstractCellEditor implements Tabl
 		return panel;
 	}
 
-	class FieldControl {
+	static class FieldControl {
 		final JTextField nameField = new JTextField(5);
 		private final JButton directionButton = new JButton();
 		boolean isAscending = true;
