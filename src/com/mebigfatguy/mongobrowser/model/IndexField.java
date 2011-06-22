@@ -51,4 +51,9 @@ public class IndexField {
 
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return fieldName + (ascending ? ": ASC" : ": DESC");
+	}
 }

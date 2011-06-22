@@ -58,4 +58,9 @@ public class IndexFieldList implements Iterable<IndexField>, Serializable {
 	public IndexField get(int index) {
 		return indexFields.get(index);
 	}
+
+	@Override
+	public String toString() {
+		return indexFields.toString();
+	}
 }

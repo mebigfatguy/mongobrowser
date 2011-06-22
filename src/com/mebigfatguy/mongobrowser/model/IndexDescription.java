@@ -68,4 +68,9 @@ public class IndexDescription implements Comparable<IndexDescription>, Serializa
 	public int compareTo(IndexDescription o) {
 		return indexName.compareTo(o.indexName);
 	}
+
+	@Override
+	public String toString() {
+		return indexName + "==> " + indexFields.toString();
+	}
 }
