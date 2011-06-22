@@ -34,10 +34,17 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+/**
+ * a table cell renderer for showing the list of fields that an index controls
+ */
 public class MongoTreeCellRenderer extends DefaultTreeCellRenderer {
 
-	Icon indexIcon;
+	private static final long serialVersionUID = -5461207993315946236L;
+	private final Icon indexIcon;
 
+	/**
+	 * constructs a renderer for the list of fields of an index
+	 */
 	public MongoTreeCellRenderer() {
 		indexIcon = new ImageIcon(getClass().getResource("/com/mebigfatguy/mongobrowser/resources/index.png"));
 	}

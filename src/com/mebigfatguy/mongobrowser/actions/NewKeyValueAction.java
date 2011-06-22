@@ -41,6 +41,12 @@ public class NewKeyValueAction extends AbstractAction {
 	private static final long serialVersionUID = -500965537578361564L;
 	private final MongoContext context;
 
+	/**
+	 * constructs an action to handle creating a new key/value pair
+	 * 
+	 * @param ctxt
+	 *            the state context
+	 */
 	public NewKeyValueAction(MongoContext ctxt) {
 		super(MongoBundle.getString(MongoBundle.Key.NewKeyValue));
 		context = ctxt;

@@ -38,6 +38,9 @@ import javax.swing.table.TableCellEditor;
 import com.mebigfatguy.mongobrowser.model.IndexField;
 import com.mebigfatguy.mongobrowser.model.IndexFieldList;
 
+/**
+ * a cell editor for a set of fields/directions for an index
+ */
 public class IndexFieldListCellEditor extends AbstractCellEditor implements TableCellEditor {
 
 	private static final long serialVersionUID = 3996145084996105628L;
@@ -121,11 +124,19 @@ public class IndexFieldListCellEditor extends AbstractCellEditor implements Tabl
 		return panel;
 	}
 
+	/**
+	 * holds one set of controls for a index field, a name and direction
+	 * indicator
+	 * 
+	 */
 	static class FieldControl {
 		final JTextField nameField = new JTextField(5);
 		private final JButton directionButton = new JButton();
 		boolean isAscending = true;
 
+		/**
+		 * constructs the controls for one index field
+		 */
 		public FieldControl() {
 			directionButton.setPreferredSize(new Dimension(ASCENDING.getIconWidth(), ASCENDING.getIconHeight()));
 			directionButton.setBorderPainted(false);
@@ -139,6 +150,12 @@ public class IndexFieldListCellEditor extends AbstractCellEditor implements Tabl
 			});
 		}
 
+		/**
+		 * set the direction of the index on this field
+		 * 
+		 * @param ascending
+		 *            either ascending or descending
+		 */
 		public void setAscending(boolean ascending) {
 			directionButton.setIcon(ascending ? ASCENDING : DESCENDING);
 			isAscending = ascending;
