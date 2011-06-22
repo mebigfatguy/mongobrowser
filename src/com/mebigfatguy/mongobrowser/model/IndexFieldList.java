@@ -18,13 +18,15 @@
  */
 package com.mebigfatguy.mongobrowser.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class IndexFieldList implements Iterable<IndexField> {
+public class IndexFieldList implements Iterable<IndexField>, Serializable {
 
+	private static final long serialVersionUID = -2452588491740324146L;
 	private final List<IndexField> indexFields = new ArrayList<IndexField>();
 
 	public IndexFieldList() {
