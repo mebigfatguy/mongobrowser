@@ -130,9 +130,9 @@ public class IndexFieldListCellEditor extends AbstractCellEditor implements Tabl
 	 * 
 	 */
 	static class FieldControl {
-		final JTextField nameField = new JTextField(5);
+		private final JTextField nameField = new JTextField(5);
 		private final JButton directionButton = new JButton();
-		boolean isAscending = true;
+		private boolean isAscending = true;
 
 		/**
 		 * constructs the controls for one index field
