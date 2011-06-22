@@ -103,8 +103,8 @@ public class ManageIndicesDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IndexDescription index = new IndexDescription(MongoBundle.getString(MongoBundle.Key.IndexPrefix)
-						+ INDEX_SEQ++, new IndexFieldList());
+				String indexName = createUniqueIndexName();
+				IndexDescription index = new IndexDescription(indexName, new IndexFieldList());
 				ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
 				model.add(index);
 			}
@@ -164,5 +164,25 @@ public class ManageIndicesDialog extends JDialog {
 		p.add(Box.createHorizontalStrut(10));
 
 		return p;
+	}
+
+	private String createUniqueIndexName() {
+		String name = null;
+		do {
+			name = MongoBundle.getString(MongoBundle.Key.IndexPrefix) + INDEX_SEQ++;
+		} while (indexExists(name));
+
+		return name;
+	}
+
+	private boolean indexExists(String name) {
+		ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
+		for (int i = 0; i < model.getRowCount(); i++) {
+			if (name.equals(model.getValueAt(0, i))) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
