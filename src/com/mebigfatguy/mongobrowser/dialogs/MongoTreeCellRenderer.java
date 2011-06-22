@@ -27,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import com.mebigfatguy.mongobrowser.MongoConstants;
 import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode.KV;
 import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode.Type;
 import com.mongodb.BasicDBObject;
@@ -67,7 +68,7 @@ public class MongoTreeCellRenderer extends DefaultTreeCellRenderer {
 				String key = ((KV) treeNode.getUserObject()).getKey();
 
 				for (DBObject index : indices) {
-					BasicDBObject kvIndex = (BasicDBObject) index.get("key");
+					BasicDBObject kvIndex = (BasicDBObject) index.get(MongoConstants.KEY);
 					if (kvIndex.get(key) != null) {
 						label.setIcon(indexIcon);
 						break;

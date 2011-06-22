@@ -23,6 +23,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.mebigfatguy.mongobrowser.MongoBundle;
+import com.mebigfatguy.mongobrowser.MongoConstants;
 import com.mebigfatguy.mongobrowser.model.IndexDescription;
 import com.mebigfatguy.mongobrowser.model.IndexFieldList;
 
@@ -117,7 +118,7 @@ public class ManageIndicesModel extends AbstractTableModel {
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		String name = (String) getValueAt(rowIndex, 0);
-		if ("_id_".equals(name)) {
+		if (MongoConstants.ID_INDEX.equals(name)) {
 			return false;
 		}
 		return (columnIndex == 0) || (columnIndex == 1);

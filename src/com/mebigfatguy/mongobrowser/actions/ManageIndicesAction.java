@@ -27,6 +27,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JTree;
 
 import com.mebigfatguy.mongobrowser.MongoBundle;
+import com.mebigfatguy.mongobrowser.MongoConstants;
 import com.mebigfatguy.mongobrowser.MongoContext;
 import com.mebigfatguy.mongobrowser.dialogs.ManageIndicesDialog;
 import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode;
@@ -54,12 +55,12 @@ public class ManageIndicesAction extends AbstractAction {
 		DBCollection collection = (DBCollection) nodes[0].getUserObject();
 		List<DBObject> dbIndices = collection.getIndexInfo();
 		for (DBObject dbIndex : dbIndices) {
-			String name = (String) dbIndex.get("name");
-			Map<String, String> srcFields = (Map<String, String>) dbIndex.get("key");
+			String name = (String) dbIndex.get(MongoConstants.NAME);
+			Map<String, String> srcFields = (Map<String, String>) dbIndex.get(MongoConstants.KEY);
 			IndexFieldList fieldSet = new IndexFieldList();
 
 			for (Map.Entry<String, String> entry : srcFields.entrySet()) {
-				fieldSet.add(entry.getKey(), "1".equals(entry.getValue()));
+				fieldSet.add(entry.getKey(), MongoConstants.ASCENDING.equals(entry.getValue()));
 			}
 
 			indices.add(new IndexDescription(name, fieldSet));

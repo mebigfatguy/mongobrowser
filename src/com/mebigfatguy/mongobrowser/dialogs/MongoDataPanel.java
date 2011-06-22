@@ -36,6 +36,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 
+import com.mebigfatguy.mongobrowser.MongoConstants;
 import com.mebigfatguy.mongobrowser.MongoContext;
 import com.mebigfatguy.mongobrowser.TreeUtils;
 import com.mebigfatguy.mongobrowser.actions.DeleteAction;
@@ -87,7 +88,7 @@ public class MongoDataPanel extends JPanel implements MongoPanel {
 			Set<String> collectionNames = db.getCollectionNames();
 			for (String collectionName : collectionNames) {
 				DBCollection collection = db.getCollection(collectionName);
-				boolean readOnly = collectionName.startsWith("system.");
+				boolean readOnly = collectionName.startsWith(MongoConstants.SYSTEM_PREFIX);
 				MongoTreeNode col = new MongoTreeNode(collection, readOnly);
 				root.add(col);
 				MongoTreeNode slug = new MongoTreeNode();
