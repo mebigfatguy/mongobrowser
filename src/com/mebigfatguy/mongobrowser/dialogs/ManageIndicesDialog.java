@@ -117,7 +117,7 @@ public class ManageIndicesDialog extends JDialog {
 				ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
 				int[] selRows = indicesTable.getSelectedRows();
 				for (int i = selRows.length - 1; i >= 0; i--) {
-					model.removeAt(i);
+					model.removeAt(selRows[i]);
 				}
 			}
 		});
@@ -178,7 +178,7 @@ public class ManageIndicesDialog extends JDialog {
 	private boolean indexExists(String name) {
 		ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
 		for (int i = 0; i < model.getRowCount(); i++) {
-			if (name.equals(model.getValueAt(0, i))) {
+			if (name.equals(model.getValueAt(i, 0))) {
 				return true;
 			}
 		}
