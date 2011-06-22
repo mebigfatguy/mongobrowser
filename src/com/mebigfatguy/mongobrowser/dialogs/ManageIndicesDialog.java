@@ -127,7 +127,7 @@ public class ManageIndicesDialog extends JDialog {
 
 	private JPanel createIndicesListPanel(List<IndexDescription> indices) {
 		JPanel p = new JPanel();
-		p.setLayout(new FormLayout("6dlu, pref, 5dlu, pref, 6dlu",
+		p.setLayout(new FormLayout("6dlu, pref:grow, 5dlu, pref, 6dlu",
 				"6dlu, 12dlu:grow, pref, 3dlu, pref, 12dlu:grow, 6dlu, pref, 6dlu"));
 		CellConstraints cc = new CellConstraints();
 
