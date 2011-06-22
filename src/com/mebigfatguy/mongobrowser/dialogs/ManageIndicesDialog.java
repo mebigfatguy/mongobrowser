@@ -32,7 +32,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -44,11 +43,11 @@ import com.mebigfatguy.mongobrowser.model.IndexFieldList;
 public class ManageIndicesDialog extends JDialog {
 
 	private static final long serialVersionUID = -4263800895451732866L;
+	private static int INDEX_SEQ = 1;
 
 	private JTable indicesTable;
-	private JButton removeIndexButton;
 	private JButton addIndexButton;
-	private JTextField indexNameField;
+	private JButton removeIndexButton;
 	private JButton okButton;
 	private JButton cancelButton;
 	private boolean ok = false;
@@ -104,9 +103,22 @@ public class ManageIndicesDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IndexDescription index = new IndexDescription(indexNameField.getText(), new IndexFieldList());
+				IndexDescription index = new IndexDescription(MongoBundle.getString(MongoBundle.Key.IndexPrefix)
+						+ INDEX_SEQ++, new IndexFieldList());
 				ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
 				model.add(index);
+			}
+		});
+
+		removeIndexButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ManageIndicesModel model = (ManageIndicesModel) indicesTable.getModel();
+				int[] selRows = indicesTable.getSelectedRows();
+				for (int i = selRows.length - 1; i >= 0; i--) {
+					model.removeAt(i);
+				}
 			}
 		});
 	}
@@ -114,23 +126,20 @@ public class ManageIndicesDialog extends JDialog {
 	private JPanel createIndicesListPanel(List<IndexDescription> indices) {
 		JPanel p = new JPanel();
 		p.setLayout(new FormLayout("6dlu, pref, 5dlu, pref, 6dlu",
-				"6dlu, 12dlu:grow, pref, 12dlu:grow, 6dlu, pref, 6dlu"));
+				"6dlu, 12dlu:grow, pref, 3dlu, pref, 12dlu:grow, 6dlu, pref, 6dlu"));
 		CellConstraints cc = new CellConstraints();
 
 		ManageIndicesModel model = new ManageIndicesModel(indices);
 
 		indicesTable = new JTable(model);
 		indicesTable.setDefaultRenderer(IndexFieldList.class, new IndexFieldListCellRenderer());
-		p.add(new JScrollPane(indicesTable), cc.xywh(2, 2, 1, 3));
-
-		removeIndexButton = new JButton(MongoBundle.getString(MongoBundle.Key.RemoveIndex));
-		p.add(removeIndexButton, cc.xy(4, 3));
-
-		indexNameField = new JTextField(20);
-		p.add(indexNameField, cc.xy(2, 6));
+		p.add(new JScrollPane(indicesTable), cc.xywh(2, 2, 1, 5));
 
 		addIndexButton = new JButton(MongoBundle.getString(MongoBundle.Key.AddIndex));
-		p.add(addIndexButton, cc.xy(4, 6));
+		p.add(addIndexButton, cc.xy(4, 3));
+
+		removeIndexButton = new JButton(MongoBundle.getString(MongoBundle.Key.RemoveIndex));
+		p.add(removeIndexButton, cc.xy(4, 5));
 
 		return p;
 	}

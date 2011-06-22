@@ -36,7 +36,7 @@ public class MongoBundle {
 				"mongo.newkeyvalue"), RemoveIndex("mongo.removeindex"), AddIndex("mongo.addindex"), Key("mongo.key"), Value(
 				"mongo.value"), Integer("mongo.integer"), Double("mongo.double"), Float("mongo.float"), String(
 				"mongo.string"), Object("mongo.object"), Delete("mongo.delete"), IndexName("mongo.indexname"), IndexFields(
-				"mongo.indexfields");
+				"mongo.indexfields"), IndexPrefix("mongo.indexprefix");
 
 		String id;
 

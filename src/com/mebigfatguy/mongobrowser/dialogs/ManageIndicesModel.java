@@ -45,6 +45,11 @@ public class ManageIndicesModel extends AbstractTableModel {
 		fireTableRowsInserted(indices.size() - 1, indices.size() - 1);
 	}
 
+	public void removeAt(int index) {
+		indices.remove(index);
+		fireTableRowsDeleted(index, index);
+	}
+
 	@Override
 	public int getRowCount() {
 		return indices.size();
