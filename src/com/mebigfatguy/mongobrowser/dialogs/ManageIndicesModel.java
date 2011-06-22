@@ -116,6 +116,10 @@ public class ManageIndicesModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		String name = (String) getValueAt(rowIndex, 0);
+		if ("_id_".equals(name)) {
+			return false;
+		}
 		return (columnIndex == 0) || (columnIndex == 1);
 	}
 }
