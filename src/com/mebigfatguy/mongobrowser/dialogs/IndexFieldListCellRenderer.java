@@ -90,7 +90,7 @@ public class IndexFieldListCellRenderer extends JPanel implements TableCellRende
 				IndexField field = fields.get(i);
 				l.setText(field.getFieldName());
 				l.setIcon(field.isAscending() ? ASCENDING : DESCENDING);
-				add(fieldLabels.get(i));
+				add(l);
 			}
 		}
 		return this;

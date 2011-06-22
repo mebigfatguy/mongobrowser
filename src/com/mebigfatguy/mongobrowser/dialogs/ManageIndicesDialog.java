@@ -135,6 +135,7 @@ public class ManageIndicesDialog extends JDialog {
 
 		indicesTable = new JTable(model);
 		indicesTable.setDefaultEditor(String.class, new DefaultCellEditor(new JTextField()));
+		indicesTable.setDefaultEditor(IndexFieldList.class, new IndexFieldListCellEditor());
 		indicesTable.setDefaultRenderer(IndexFieldList.class, new IndexFieldListCellRenderer());
 		p.add(new JScrollPane(indicesTable), cc.xywh(2, 2, 1, 5));
 
