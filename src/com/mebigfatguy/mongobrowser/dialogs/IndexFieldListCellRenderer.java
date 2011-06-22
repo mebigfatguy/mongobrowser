@@ -13,30 +13,48 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
+import sun.swing.DefaultLookup;
+
 import com.mebigfatguy.mongobrowser.model.IndexField;
 import com.mebigfatguy.mongobrowser.model.IndexFieldList;
 
-public class IndexFieldListCellRenderer implements TableCellRenderer {
+public class IndexFieldListCellRenderer extends JPanel implements TableCellRenderer {
+
+	private static final long serialVersionUID = 1447611436027408402L;
 
 	private static final Icon ASCENDING = new ImageIcon(
 			IndexFieldListCellRenderer.class.getResource("/com/mebigfatguy/mongobrowser/resources/ascending.png"));
 	private static final Icon DESCENDING = new ImageIcon(
 			IndexFieldListCellRenderer.class.getResource("/com/mebigfatguy/mongobrowser/resources/descending.png"));
 
-	private final JPanel panel = new JPanel();
 	private final List<JLabel> fieldLabels = new ArrayList<JLabel>();
 
 	public IndexFieldListCellRenderer() {
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 0));
-		panel.setOpaque(true);
+		setLayout(new FlowLayout(FlowLayout.CENTER, 2, 0));
+		setOpaque(true);
 	}
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
-		panel.removeAll();
-		panel.setFont(table.getFont());
+		removeAll();
+		setFont(table.getFont());
+
+		if (isSelected) {
+			setBackground(table.getSelectionBackground());
+			setForeground(table.getSelectionForeground());
+		} else {
+			setBackground(table.getBackground());
+			setForeground(table.getForeground());
+		}
+
+		if (hasFocus) {
+			setBorder(isSelected ? DefaultLookup.getBorder(this, ui, "Table.focusSelectedCellHighlightBorder")
+					: DefaultLookup.getBorder(this, ui, "Table.focusCellHighlightBorder"));
+		} else {
+			setBorder(DefaultLookup.getBorder(this, ui, "Table.cellNoFocusBorder"));
+		}
 
 		if (value instanceof IndexFieldList) {
 			IndexFieldList fields = (IndexFieldList) value;
@@ -54,9 +72,9 @@ public class IndexFieldListCellRenderer implements TableCellRenderer {
 				IndexField field = fields.get(i);
 				l.setText(field.getFieldName());
 				l.setIcon(field.isAscending() ? ASCENDING : DESCENDING);
-				panel.add(fieldLabels.get(i));
+				add(fieldLabels.get(i));
 			}
 		}
-		return panel;
+		return this;
 	}
 }
