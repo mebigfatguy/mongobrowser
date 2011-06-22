@@ -74,6 +74,21 @@ public class ManageIndicesModel extends AbstractTableModel {
 	}
 
 	@Override
+	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		IndexDescription index = indices.get(rowIndex);
+		switch (columnIndex) {
+			case 0:
+				index.setIndexName((String) value);
+			case 1:
+			break;
+			default:
+				throw new IllegalArgumentException("columnIndex = " + columnIndex);
+		}
+
+		fireTableCellUpdated(rowIndex, columnIndex);
+	}
+
+	@Override
 	public String getColumnName(int columnIndex) {
 		switch (columnIndex) {
 			case 0:
@@ -99,6 +114,6 @@ public class ManageIndicesModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return columnIndex == 1;
+		return columnIndex == 0;
 	}
 }

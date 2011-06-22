@@ -24,7 +24,7 @@ public class IndexDescription implements Comparable<IndexDescription>, Serializa
 
 	private static final long serialVersionUID = 1616892606319350318L;
 
-	private final String indexName;
+	private String indexName;
 	private final IndexFieldList indexFields;
 
 	public IndexDescription(String name, IndexFieldList fields) {
@@ -34,6 +34,10 @@ public class IndexDescription implements Comparable<IndexDescription>, Serializa
 
 	public String getIndexName() {
 		return indexName;
+	}
+
+	public void setIndexName(String name) {
+		indexName = name;
 	}
 
 	public IndexFieldList getIndexFieldSet() {

@@ -27,11 +27,13 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -132,6 +134,7 @@ public class ManageIndicesDialog extends JDialog {
 		ManageIndicesModel model = new ManageIndicesModel(indices);
 
 		indicesTable = new JTable(model);
+		indicesTable.setDefaultEditor(String.class, new DefaultCellEditor(new JTextField()));
 		indicesTable.setDefaultRenderer(IndexFieldList.class, new IndexFieldListCellRenderer());
 		p.add(new JScrollPane(indicesTable), cc.xywh(2, 2, 1, 5));
 
