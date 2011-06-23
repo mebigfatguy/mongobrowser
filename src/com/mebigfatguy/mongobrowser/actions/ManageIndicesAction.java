@@ -89,13 +89,17 @@ public class ManageIndicesAction extends AbstractAction {
 
 		collection.dropIndexes();
 
-		{ // add new indices
-			for (IndexDescription index : indices) {
-				if (!MongoConstants.ID_INDEX.equals(index.getIndexName())) {
-					IndexFieldList fieldList = index.getIndexFieldList();
-					IndexField field = fieldList.get(0);
-					collection.createIndex(new BasicDBObject(field.getFieldName(), field.isAscending() ? "1" : "-1"));
+		for (IndexDescription index : indices) {
+			if (!MongoConstants.ID_INDEX.equals(index.getIndexName())) {
+
+				BasicDBObject dbFields = new BasicDBObject();
+				IndexFieldList fieldList = index.getIndexFieldList();
+
+				for (IndexField field : fieldList) {
+					dbFields.append(field.getFieldName(), field.isAscending() ? "1" : "-1");
 				}
+
+				collection.ensureIndex(dbFields, index.getIndexName());
 			}
 		}
 	}
