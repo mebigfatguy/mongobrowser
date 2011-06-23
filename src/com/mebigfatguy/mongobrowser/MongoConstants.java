@@ -22,7 +22,8 @@ public class MongoConstants {
 
 	public static final String NAME = "name";
 	public static final String KEY = "key";
-	public static final String ASCENDING = "1";
+	public static final Integer ASCENDING = Integer.valueOf(1);
+	public static final Integer DESCENDING = Integer.valueOf(-1);
 	public static final String ID_INDEX = "_id_";
 	public static final String SYSTEM_PREFIX = "system.";
 

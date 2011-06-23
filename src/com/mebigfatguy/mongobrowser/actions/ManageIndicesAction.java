@@ -72,10 +72,10 @@ public class ManageIndicesAction extends AbstractAction {
 		List<DBObject> dbIndices = collection.getIndexInfo();
 		for (DBObject dbIndex : dbIndices) {
 			String name = (String) dbIndex.get(MongoConstants.NAME);
-			Map<String, String> srcFields = (Map<String, String>) dbIndex.get(MongoConstants.KEY);
+			Map<String, Integer> srcFields = (Map<String, Integer>) dbIndex.get(MongoConstants.KEY);
 			IndexFieldList fieldSet = new IndexFieldList();
 
-			for (Map.Entry<String, String> entry : srcFields.entrySet()) {
+			for (Map.Entry<String, Integer> entry : srcFields.entrySet()) {
 				fieldSet.add(entry.getKey(), MongoConstants.ASCENDING.equals(entry.getValue()));
 			}
 
@@ -96,7 +96,7 @@ public class ManageIndicesAction extends AbstractAction {
 				IndexFieldList fieldList = index.getIndexFieldList();
 
 				for (IndexField field : fieldList) {
-					dbFields.append(field.getFieldName(), field.isAscending() ? "1" : "-1");
+					dbFields.append(field.getFieldName(), Integer.valueOf(field.isAscending() ? 1 : -1));
 				}
 
 				collection.ensureIndex(dbFields, index.getIndexName());
