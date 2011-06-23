@@ -51,8 +51,20 @@ public class ManageIndicesAction extends AbstractAction {
 		JTree tree = context.getTree();
 
 		MongoTreeNode[] nodes = context.getSelectedNodes();
+		List<IndexDescription> indices = buildIndexDescriptions((DBCollection) nodes[0].getUserObject());
+
+		ManageIndicesDialog dialog = new ManageIndicesDialog(indices);
+		dialog.setLocationRelativeTo(tree);
+		dialog.setModal(true);
+		dialog.setVisible(true);
+
+		if (dialog.isOK()) {
+			indices = dialog.getIndicesNames();
+		}
+	}
+
+	private List<IndexDescription> buildIndexDescriptions(DBCollection collection) {
 		List<IndexDescription> indices = new ArrayList<IndexDescription>();
-		DBCollection collection = (DBCollection) nodes[0].getUserObject();
 		List<DBObject> dbIndices = collection.getIndexInfo();
 		for (DBObject dbIndex : dbIndices) {
 			String name = (String) dbIndex.get(MongoConstants.NAME);
@@ -66,13 +78,6 @@ public class ManageIndicesAction extends AbstractAction {
 			indices.add(new IndexDescription(name, fieldSet));
 		}
 
-		ManageIndicesDialog dialog = new ManageIndicesDialog(indices);
-		dialog.setLocationRelativeTo(tree);
-		dialog.setModal(true);
-		dialog.setVisible(true);
-
-		if (dialog.isOK()) {
-			indices = dialog.getIndicesNames();
-		}
+		return indices;
 	}
 }
