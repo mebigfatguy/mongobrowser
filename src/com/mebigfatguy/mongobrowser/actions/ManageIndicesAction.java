@@ -32,7 +32,9 @@ import com.mebigfatguy.mongobrowser.MongoContext;
 import com.mebigfatguy.mongobrowser.dialogs.ManageIndicesDialog;
 import com.mebigfatguy.mongobrowser.dialogs.MongoTreeNode;
 import com.mebigfatguy.mongobrowser.model.IndexDescription;
+import com.mebigfatguy.mongobrowser.model.IndexField;
 import com.mebigfatguy.mongobrowser.model.IndexFieldList;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
@@ -51,7 +53,8 @@ public class ManageIndicesAction extends AbstractAction {
 		JTree tree = context.getTree();
 
 		MongoTreeNode[] nodes = context.getSelectedNodes();
-		List<IndexDescription> indices = buildIndexDescriptions((DBCollection) nodes[0].getUserObject());
+		DBCollection collection = (DBCollection) nodes[0].getUserObject();
+		List<IndexDescription> indices = buildIndexDescriptions(collection);
 
 		ManageIndicesDialog dialog = new ManageIndicesDialog(indices);
 		dialog.setLocationRelativeTo(tree);
@@ -60,6 +63,7 @@ public class ManageIndicesAction extends AbstractAction {
 
 		if (dialog.isOK()) {
 			indices = dialog.getIndicesNames();
+			updateIndices(collection, indices);
 		}
 	}
 
@@ -79,5 +83,20 @@ public class ManageIndicesAction extends AbstractAction {
 		}
 
 		return indices;
+	}
+
+	private void updateIndices(DBCollection collection, List<IndexDescription> indices) {
+
+		collection.dropIndexes();
+
+		{ // add new indices
+			for (IndexDescription index : indices) {
+				if (!MongoConstants.ID_INDEX.equals(index.getIndexName())) {
+					IndexFieldList fieldList = index.getIndexFieldList();
+					IndexField field = fieldList.get(0);
+					collection.createIndex(new BasicDBObject(field.getFieldName(), field.isAscending() ? "1" : "-1"));
+				}
+			}
+		}
 	}
 }
