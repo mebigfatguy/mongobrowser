@@ -1,3 +1,21 @@
+/*
+ * mongobrowser - a webstart gui application for viewing, 
+ *                editing and administering a Mongo Database
+ * Copyright 2009-2011 MeBigFatGuy.com
+ * Copyright 2009-2011 Dave Brosius
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * 
+ *    http://www.apache.org/licenses/LICENSE-2.0 
+ *    
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and limitations 
+ * under the License. 
+ */
 package com.mebigfatguy.mongobrowser.dialogs;
 
 import java.awt.BorderLayout;
@@ -6,6 +24,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -90,6 +111,7 @@ public class KeyValueDialog extends JDialog {
 		model.addElement(new DoubleValueType());
 		model.addElement(new FloatValueType());
 		model.addElement(new StringValueType());
+		model.addElement(new DateValueType());
 		model.addElement(new ObjectValueType());
 		valueTypeBox.setSelectedIndex(3);
 		p.add(valueTypeBox, cc.xy(6, 4));
@@ -386,6 +408,91 @@ public class KeyValueDialog extends JDialog {
 		@Override
 		public String toString() {
 			return MongoBundle.getString(MongoBundle.Key.String);
+		}
+	}
+
+	/**
+	 * a value type representing a Date object
+	 */
+	static class DateValueType implements ValueType {
+
+		/**
+		 * installs an PlainDocument as the field's model
+		 * 
+		 * @param field
+		 *            the text edit field to install the model
+		 */
+		@Override
+		public void installDocument(JTextField field) {
+			try {
+				String val = field.getText();
+				field.setText("");
+				field.setDocument(new DateDocument());
+				field.getDocument().insertString(0, val, null);
+				field.setEnabled(true);
+			} catch (BadLocationException ble) {
+			}
+		}
+
+		/**
+		 * get the field's values as an String
+		 * 
+		 * @param field
+		 *            the component that holds the string value
+		 * @return an Date that is the value of the text field
+		 */
+		@Override
+		public Object getValue(JTextField field) {
+			Pattern p = Pattern.compile(MongoBundle.getString(MongoBundle.Key.DateFormat));
+
+			Calendar c = Calendar.getInstance();
+
+			Matcher m = p.matcher(field.getText());
+			if (m.matches() || m.hitEnd()) {
+				c.clear();
+
+				int groupCounts = m.groupCount();
+				if (groupCounts > 0) {
+					String[] monthVals = MongoBundle.getString(MongoBundle.Key.MonthValues).split(",");
+					String month = m.group(1);
+					for (String mv : monthVals) {
+						if (month.startsWith(mv)) {
+							c.set(Calendar.MONTH, Integer.parseInt(mv.split(":")[1]));
+						}
+					}
+					if (groupCounts > 1) {
+						c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(m.group(2)));
+						if (groupCounts > 2) {
+							c.set(Calendar.YEAR, Integer.parseInt(m.group(3)));
+							if (groupCounts > 3) {
+								String[] time = m.group(4).split(":");
+
+								if (time.length > 0) {
+									c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time[0]));
+									if (time.length > 1) {
+										c.set(Calendar.MINUTE, Integer.parseInt(time[1]));
+										if (time.length > 2) {
+											c.set(Calendar.SECOND, Integer.parseInt(time[2]));
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return c.getTime();
+		}
+
+		/**
+		 * returns the display value shown in the combo box
+		 * 
+		 * @return the string 'String'
+		 */
+		@Override
+		public String toString() {
+			return MongoBundle.getString(MongoBundle.Key.Date);
 		}
 	}
 

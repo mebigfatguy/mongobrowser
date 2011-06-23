@@ -52,11 +52,14 @@ public class MongoBundle {
 		Double("mongo.double"),
 		Float("mongo.float"),
 		String("mongo.string"),
+		Date("mongo.date"),
 		Object("mongo.object"),
 		Delete("mongo.delete"),
 		IndexName("mongo.indexname"),
 		IndexFields("mongo.indexfields"),
-		IndexPrefix("mongo.indexprefix");
+		IndexPrefix("mongo.indexprefix"),
+		DateFormat("mongo.dateformat"),
+		MonthValues("mongo.monthvalues");
 
 		private String id;
 
