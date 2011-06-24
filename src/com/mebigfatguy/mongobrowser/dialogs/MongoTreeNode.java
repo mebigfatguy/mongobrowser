@@ -41,7 +41,7 @@ public class MongoTreeNode extends DefaultMutableTreeNode {
 	 * holds the key value of a mongo object property
 	 */
 	public static class KV {
-		private String key;
+		private final String key;
 		private Object value;
 
 		public KV(String k, Object v) {
@@ -55,6 +55,10 @@ public class MongoTreeNode extends DefaultMutableTreeNode {
 
 		public Object getValue() {
 			return value;
+		}
+
+		public void setValue(Object o) {
+			value = o;
 		}
 
 		@Override

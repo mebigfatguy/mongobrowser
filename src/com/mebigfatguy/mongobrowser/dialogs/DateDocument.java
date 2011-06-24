@@ -30,7 +30,7 @@ import com.mebigfatguy.mongobrowser.MongoBundle;
 
 public class DateDocument extends PlainDocument {
 
-	private static Pattern DATE_PATTERN = Pattern.compile(MongoBundle.getString(MongoBundle.Key.DateFormat));
+	private static Pattern DATE_PATTERN = Pattern.compile(MongoBundle.getString(MongoBundle.Key.DateRegex));
 
 	/**
 	 * intercepts string insertions to make sure that the values to be put into

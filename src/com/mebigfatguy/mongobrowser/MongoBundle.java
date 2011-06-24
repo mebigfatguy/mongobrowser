@@ -44,6 +44,7 @@ public class MongoBundle {
 		ManageIndices("mongo.manageindices"),
 		NewObject("mongo.newobject"),
 		NewKeyValue("mongo.newkeyvalue"),
+		EditKeyValue("mongo.editkeyvalue"),
 		RemoveIndex("mongo.removeindex"),
 		AddIndex("mongo.addindex"),
 		Key("mongo.key"),
@@ -58,8 +59,9 @@ public class MongoBundle {
 		IndexName("mongo.indexname"),
 		IndexFields("mongo.indexfields"),
 		IndexPrefix("mongo.indexprefix"),
-		DateFormat("mongo.dateformat"),
-		MonthValues("mongo.monthvalues");
+		DateRegex("mongo.dateregex"),
+		MonthValues("mongo.monthvalues"),
+		DateFormat("mongo.dateformat");
 
 		private String id;
 

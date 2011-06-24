@@ -24,7 +24,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,9 +67,23 @@ public class KeyValueDialog extends JDialog {
 	 * constructs a dialog to collect a key value for a mongo object's property
 	 */
 	public KeyValueDialog() {
+		this(null, null);
+	}
+
+	/**
+	 * constructs a dialog to collect a key value for a mongo object's property
+	 */
+	public KeyValueDialog(String key, Object value) {
 		setTitle(MongoBundle.getString(MongoBundle.Key.NewKeyValue));
 		initComponents();
 		initListeners();
+
+		if (key != null) {
+			keyField.setText(key);
+			keyField.setEnabled(false);
+			installValue(value);
+		}
+
 		pack();
 	}
 
@@ -203,6 +219,47 @@ public class KeyValueDialog extends JDialog {
 	 */
 	public Object getValue() {
 		return ((ValueType) valueTypeBox.getSelectedItem()).getValue(valueField);
+	}
+
+	/**
+	 * updates the key value dialog based on the value, this is kind of crufty,
+	 * would be nicer to handle the popup a better way
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	private void installValue(Object value) {
+		if (value != null) {
+			DefaultComboBoxModel model = (DefaultComboBoxModel) valueTypeBox.getModel();
+
+			if (value instanceof Integer) {
+				valueTypeBox.setSelectedIndex(0);
+				ValueType vt = (ValueType) model.getElementAt(0);
+				vt.installDocument(valueField);
+				valueField.setText(String.valueOf(value));
+			} else if (value instanceof Double) {
+				valueTypeBox.setSelectedIndex(1);
+				ValueType vt = (ValueType) model.getElementAt(1);
+				vt.installDocument(valueField);
+				valueField.setText(String.valueOf(value));
+			} else if (value instanceof Float) {
+				valueTypeBox.setSelectedIndex(2);
+				ValueType vt = (ValueType) model.getElementAt(2);
+				vt.installDocument(valueField);
+				valueField.setText(String.valueOf(value));
+			} else if (value instanceof String) {
+				valueTypeBox.setSelectedIndex(3);
+				ValueType vt = (ValueType) model.getElementAt(3);
+				vt.installDocument(valueField);
+				valueField.setText((String) value);
+			} else if (value instanceof Date) {
+				valueTypeBox.setSelectedIndex(4);
+				ValueType vt = (ValueType) model.getElementAt(4);
+				vt.installDocument(valueField);
+				SimpleDateFormat sdf = new SimpleDateFormat(MongoBundle.getString(MongoBundle.Key.DateFormat));
+				valueField.setText(sdf.format((Date) value));
+			}
+		}
 	}
 
 	/**
@@ -443,7 +500,7 @@ public class KeyValueDialog extends JDialog {
 		 */
 		@Override
 		public Object getValue(JTextField field) {
-			Pattern p = Pattern.compile(MongoBundle.getString(MongoBundle.Key.DateFormat));
+			Pattern p = Pattern.compile(MongoBundle.getString(MongoBundle.Key.DateRegex));
 
 			Calendar c = Calendar.getInstance();
 
