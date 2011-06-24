@@ -36,6 +36,7 @@ import com.mongodb.DBObject;
  */
 public class EditKeyValueAction extends AbstractAction {
 
+	private static final long serialVersionUID = 6217724540802572545L;
 	private final MongoContext context;
 
 	/**
