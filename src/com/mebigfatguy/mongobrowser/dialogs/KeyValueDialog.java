@@ -80,7 +80,7 @@ public class KeyValueDialog extends JDialog {
 
 		if (key != null) {
 			keyField.setText(key);
-			keyField.setEnabled(false);
+			keyField.setEditable(false);
 			installValue(value);
 		}
 
