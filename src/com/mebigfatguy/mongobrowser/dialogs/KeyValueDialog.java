@@ -24,6 +24,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +50,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.mongobrowser.MongoBundle;
 import com.mebigfatguy.mongobrowser.SwingUtils;
+import com.mebigfatguy.pickcal.PickCalDialog;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -61,6 +65,7 @@ public class KeyValueDialog extends JDialog {
 	private JTextField valueField;
 	private JButton okButton;
 	private JButton cancelButton;
+	private final DateMouseListener dateMouseListener;
 	private boolean ok = false;
 
 	/**
@@ -77,10 +82,11 @@ public class KeyValueDialog extends JDialog {
 		setTitle(MongoBundle.getString(MongoBundle.Key.NewKeyValue));
 		initComponents();
 		initListeners();
+		dateMouseListener = new DateMouseListener();
 
 		if (key != null) {
 			keyField.setText(key);
-			keyField.setEditable(false);
+			keyField.setEnabled(false);
 			installValue(value);
 		}
 
@@ -187,6 +193,13 @@ public class KeyValueDialog extends JDialog {
 				if (ie.getStateChange() == ItemEvent.SELECTED) {
 					ValueType vt = (ValueType) ie.getItem();
 					vt.installDocument(valueField);
+					if (vt instanceof DateValueType) {
+						valueField.setEditable(false);
+						valueField.addMouseListener(dateMouseListener);
+					} else {
+						valueField.setEditable(true);
+						valueField.removeMouseListener(dateMouseListener);
+					}
 				}
 			}
 		});
@@ -256,6 +269,7 @@ public class KeyValueDialog extends JDialog {
 				valueTypeBox.setSelectedIndex(4);
 				ValueType vt = (ValueType) model.getElementAt(4);
 				vt.installDocument(valueField);
+				valueField.setEditable(false);
 				SimpleDateFormat sdf = new SimpleDateFormat(MongoBundle.getString(MongoBundle.Key.DateFormat));
 				valueField.setText(sdf.format((Date) value));
 			}
@@ -591,6 +605,28 @@ public class KeyValueDialog extends JDialog {
 		@Override
 		public String toString() {
 			return MongoBundle.getString(MongoBundle.Key.Object);
+		}
+	}
+
+	class DateMouseListener extends MouseAdapter {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			SimpleDateFormat sdf = new SimpleDateFormat(MongoBundle.getString(MongoBundle.Key.DateFormat));
+
+			PickCalDialog pick = new PickCalDialog();
+			try {
+				pick.setDate(sdf.parse(valueField.getText()));
+			} catch (ParseException pe) {
+			}
+
+			pick.setModal(true);
+			pick.setLocationRelativeTo(KeyValueDialog.this);
+			pick.setVisible(true);
+			if (pick.isOK()) {
+				Date pickedDate = pick.getDate();
+				valueField.setText(sdf.format(pickedDate));
+			}
 		}
 	}
 }
