@@ -63,6 +63,7 @@
 			<pathelement location="${lib.dir}/mongo-java-driver-${mongo-java-driver.version}.jar"/>
 			<pathelement location="${lib.dir}/forms-${forms.version}.jar"/>
 			<pathelement location="${lib.dir}/commons-io-${commons-io.version}.jar"/>
+			<pathelement location="${lib.dir}/pickcal-${pickcal.version}.jar"/>
 		</path>
 	</target>
 
@@ -154,7 +155,7 @@
 			<manifest>
 				<attribute name="mongobrowser-version" value="${mongobrowser.version}"/>
 				<attribute name="Main-Class" value="com.mebigfatguy.mongobrowser.MongoBrowser"/>
-				<attribute name="Class-Path" value="commons-io-${commons-io.version}.jar forms-${forms.version}.jar"/>
+				<attribute name="Class-Path" value="commons-io-${commons-io.version}.jar forms-${forms.version}.jar pickcal-${pickcal.version}.jar"/>
 			</manifest>
 		</jar>	
 	</target>
@@ -221,7 +222,7 @@
 	<target name="binzip" depends="build" description="zips up all jars">
 		<zip destfile="${basedir}/mongobrowser-bin-${mongobrowser.version}.zip" 
 			 basedir="${jnlp.dir}"
-			 includes="mongobrowser-${mongobrowser.version}.jar commons-io-${commons-io.version}.jar forms-${forms.version}.jar"/>
+			 includes="mongobrowser-${mongobrowser.version}.jar commons-io-${commons-io.version}.jar forms-${forms.version}.jar pickcal-${pickcal.version}.jar"/>
 	</target>
 	
 	<target name="release" depends="build, jnlp, binzip, srczip, javadoc" description="prepares everything for a release"/>
