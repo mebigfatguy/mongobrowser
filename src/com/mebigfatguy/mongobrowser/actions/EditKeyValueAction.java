@@ -57,7 +57,6 @@ public class EditKeyValueAction extends AbstractAction {
 
 		if (selectedNodes.length == 1) {
 
-			DBObject dbObject = (DBObject) ((MongoTreeNode) selectedNodes[0].getParent()).getUserObject();
 			MongoTreeNode.KV keyValue = ((MongoTreeNode.KV) selectedNodes[0].getUserObject());
 
 			String key = keyValue.getKey();
@@ -69,6 +68,7 @@ public class EditKeyValueAction extends AbstractAction {
 			dialog.setVisible(true);
 
 			if (dialog.isOK()) {
+	            DBObject dbObject = (DBObject) ((MongoTreeNode) selectedNodes[0].getParent()).getUserObject();
 				key = dialog.getKey();
 				value = dialog.getValue();
 
